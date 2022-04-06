@@ -7,4 +7,7 @@ layout: post
 ---
 
 Email: sdau2014zc@outlook.com
-Git: https://github.com/Mikotoo
+
+Git: [https://github.com/Mikotoo][1]
+
+[1]:https://github.com/Mikotoo
