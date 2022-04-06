@@ -6,4 +6,9 @@ category: Jekyll
 layout: post
 ---
 
-> 上传文件
+> 图片
+![Letin](https://github.com/Mikotoo/Mikotoo.github.io/tree/main/downloads/image/Letin.jpeg)
+
+> 文件
+
+[R语言编程艺术](https://github.com/Mikotoo/Mikotoo.github.io/blob/main/downloads/book/The%20Art%20of%20R%20Programming.pdf)
