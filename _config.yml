@@ -1,21 +1,54 @@
-# Site settings
-title: "继续学习"
-author: "Ulyanov"
-description: 随便写写
-keywords: 
-biography: 
-colophon: 
+# Configurations
+title:            学习，学习，学习
+longtitle:        同志们要加强学习，不要上知识分子的当
+author:           
+email:            
+description: >
+  随便写写
 
-baseurl: 
-url: https://Mikotoo.github.io
+version:          1.0
+gitbook_version:  3.2.3
 
-twitter_username: 
-github_username: Mikotoo
-linkedin_username: 
-facebook_username: 
-google-analytics: 
+url:              'https://mikotoo.github.io'
+baseurl:          
+rss:              
 
-simple_search: http://google.com/search
-markdown: kramdown
-highlighter: rouge
-permalink: /blog/:year/:month/:day/:title/
+toc:
+  enabled: true
+  h_min: 1
+  h_max: 3
+
+# markdown render engine.
+markdown:         kramdown
+kramdown:
+  auto_ids:               true
+  input:                  GFM
+  math_engine:            mathjax
+  smart_quotes:           lsquo,rsquo,ldquo,rdquo
+  toc_levels:             1..6
+  syntax_highlighter:     rouge
+  syntax_highlighter_opts:
+    guess_lang:           true
+
+syntax_highlighter_style: colorful
+
+markdown_ext:     markdown,mkdown,mkdn,mkd,md
+
+# Permalinks
+permalink:        /:categories/:year-:month-:day-:title:output_ext
+
+exclude:
+  - _drafts
+
+collections:
+  pages:
+    output: true
+    permalink: /:collection/:path/
+
+destination:      ./_site
+incremental:      false
+regenerate:       true
+
+plugins:
+  - jekyll-feed
+  - jemoji
