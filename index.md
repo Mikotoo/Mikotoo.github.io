@@ -1,6 +1,6 @@
 ---
 layout: home
-title: 
+title: 学习，学习，学习
 ---
 
 ### 知识属于全人类
