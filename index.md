@@ -1,9 +1,10 @@
 ---
 layout: home
+title: 
 ---
 
-## 知识属于全人类
-## Knowledge belongs to all People
+### 知识属于全人类
+### Knowledge belongs to all People
 
 
 ![Letin][1]
