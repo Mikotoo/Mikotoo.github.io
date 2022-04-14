@@ -31,7 +31,23 @@ perl ./configure
 #### 5、使用
 `RepeatMasker -pa 4 -species soybean -poly -html -gff -dir rm genome.fa 1>pro.log 2>err.log`
 
+示例
+> 大豆基因组
+
+![pic4][4]
+
+> Repeatmask之后的大豆基因组
+
+![pic5][5]
+
+> 识别到的重复序列
+
+![pic6][6]
+
 
 [1]: https://www.repeatmasker.org/RepeatMasker/
 [2]: http://www.repeatmasker.org/RMBlast.html
 [3]: https://pan.baidu.com/s/1I5D1K5S4UeLXNrJFrEed2A
+[4]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog3_repeatmask/rm1.png
+[5]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog3_repeatmask/rm2.png
+[6]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog3_repeatmask/rm3.png
