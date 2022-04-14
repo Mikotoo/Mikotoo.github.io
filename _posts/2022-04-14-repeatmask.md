@@ -1,11 +1,12 @@
 ---
-title: 【software】RepeatMasker的安装和使用
+title: RepeatMasker的安装和使用
 author: 
 date: 2022-04-14
 category: Jekyll
 layout: post
 ---
-> 需求:<br>
+> 识别并屏蔽基因组中的重复序列
+需求:<br>
 **python3**环境<br>
 TRF 4.09或更高  `conda install trf=4.09`<br>
 h5py    `pip install h5py`<br>
@@ -28,7 +29,7 @@ perl ./configure
 
 
 #### 5、使用
-RepeatMasker -pa 4 -species soybean -poly -html -gff -dir rm genome.fa 1>pro.log 2>err.log
+`RepeatMasker -pa 4 -species soybean -poly -html -gff -dir rm genome.fa 1>pro.log 2>err.log`
 
 
 [1]: https://www.repeatmasker.org/RepeatMasker/
