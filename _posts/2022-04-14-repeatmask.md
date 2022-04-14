@@ -5,7 +5,7 @@ date: 2022-04-14
 category: Jekyll
 layout: post
 ---
-> 识别并屏蔽基因组中的重复序列
+> 识别并屏蔽基因组中的重复序列<br>
 需求:<br>
 **python3**环境<br>
 TRF 4.09或更高  `conda install trf=4.09`<br>
@@ -25,7 +25,7 @@ h5py    `pip install h5py`<br>
 cd ~/softwareRepeatMasker
 perl ./configure
 ```
-配置选2，一路回车后键入5，完成配置
+配置选2，输入rmblast路径，之后一路回车后键入5，完成配置
 
 
 #### 5、使用
