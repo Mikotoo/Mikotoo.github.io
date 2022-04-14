@@ -1,0 +1,36 @@
+---
+title: 【software】RepeatMasker的安装和使用
+author: 
+date: 2022-04-14
+category: Jekyll
+layout: post
+---
+> 需求:<br>
+**python3**环境<br>
+TRF 4.09或更高  `conda install trf=4.09`<br>
+h5py    `pip install h5py`<br>
+[rmblast][2]    下载解压
+
+
+##### 1、下载RepeatMasker安装包并解压
+[官网链接][1]
+
+##### 2、RepBase library
+[baidu网盘][3] 提取码 b4to
+下载，解压并复制到 `~/software/RepeatMasker/Libraries/` 目录中
+
+##### 3、安装
+```
+cd ~/softwareRepeatMasker
+perl ./configure
+```
+配置选2，一路回车后键入5，完成配置
+
+
+#### 5、使用
+RepeatMasker -pa 4 -species soybean -poly -html -gff -dir rm genome.fa 1>pro.log 2>err.log
+
+
+[1]: https://www.repeatmasker.org/RepeatMasker/
+[2]: http://www.repeatmasker.org/RMBlast.html
+[3]: https://pan.baidu.com/s/1I5D1K5S4UeLXNrJFrEed2A
