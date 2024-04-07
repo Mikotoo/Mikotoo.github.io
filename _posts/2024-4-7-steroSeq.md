@@ -56,8 +56,8 @@ layout: post
 <p>
 	<p> 基于去卷积(deconvolution)的方法，验证了之前注释的cluster，并对其他未注释的cluster完成了注释 </p>
 
-	1. 未感染细胞 cluster 0; cluster7; cluster 11
-	2. 根瘤外皮层 cluster 2; cluster 4
+1. 未感染细胞 cluster 0; cluster7; cluster 11
+2. 根瘤外皮层 cluster 2; cluster 4
 </p>
 
 ![pic5][5]
