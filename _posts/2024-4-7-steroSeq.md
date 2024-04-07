@@ -31,9 +31,31 @@ layout: post
 
 ##### 1.3 结果
 
-###### 1)单细胞核RNA测序分析
-1）对3样本数据分别比对，统计细胞数、基因数等信息
-2）将3组dataset整合，得到了 15个cell clusters
+###### 1）单细胞核RNA测序分析
+1. 对3样本数据分别比对，统计细胞数、基因数等信息
+2. 将3组dataset整合，得到了 15个cell clusters（cluster0-cluster14），并得到了每个cluster中上调的基因
+
+![pic3][3]
+
+3. 利用拟南芥和其它豆科植物的标记基因对细胞进行注释，注释出了15个cluster中的5个，包括
+	1. 根表皮细胞 cluster 5
+	2. 根维管束 cluster 3
+	3. 根瘤维管束 cluster 9
+	4. 根瘤皮层 cluster 1
+	5. 感染细胞	cluster 12
+
+###### 2）Stereo-seq
+<p>由于大豆根瘤中标记基因的缺乏，很多cluster没有注释成功。</p>
+<p>为了克服这个问题，对12dpi，21dpi的根瘤做空转，根据空间表达信息对细胞进行注释，将其分为6个区域。</p>
+
+![pic4][4]
+
+> 感染区，内皮层，外皮层(cluster 2 and 4)，表皮，微管
+
+
+
 
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
 [2]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/Schematic_diagram.png
+[3]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/sn_fig3.jpg
+[4]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/st_fig4.png
