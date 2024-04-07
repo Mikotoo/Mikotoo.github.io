@@ -29,7 +29,7 @@ layout: post
 ![pic2][2]
 
 
-##### 1.3 结果
+##### 1.3 聚类与注释
 
 ###### 1）单细胞核RNA测序分析
 1. 对3样本数据分别比对，统计细胞数、基因数等信息
@@ -42,7 +42,7 @@ layout: post
 	2. 根维管束 cluster 3
 	3. 根瘤维管束 cluster 9
 	4. 根瘤皮层 cluster 1
-	5. 感染细胞	cluster 12
+	5. 中心感染区	cluster 12
 
 ###### 2）Stereo-seq
 <p>由于大豆根瘤中标记基因的缺乏，很多cluster没有注释成功。</p>
@@ -55,7 +55,7 @@ layout: post
 
 <p> 基于去卷积(deconvolution)的方法，验证了之前注释的cluster，并对其他未注释的cluster完成了注释 </p>
 
-1. 未感染细胞 cluster 0; cluster7; cluster 11
+1. 中心感染区 cluster 0; cluster7; cluster 11
 2. 根瘤外皮层 cluster 2; cluster 4
 
 
@@ -68,6 +68,17 @@ layout: post
 ![pic6][6]
 
 
+##### 1.4 感染区亚型
+
+<p><b>有4个cluster被定位到中心感染区，分别为0，7，11，12。</b></p>
+
+<p>在2022年一篇百脉根<i>Lotus japonocus</i>的单细胞工作，手动分离了细菌侵入的细胞和没有侵入的细胞</p>
+
+<p>因此，本文根据百脉根不同细胞的基因表达模式，将cluster 0，7，11确定为未侵入的细胞，cluster 12为根瘤菌侵入的细胞</p>
+
+![pic7][7]
+
+
 
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
 [2]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/Schematic_diagram.png
@@ -75,3 +86,4 @@ layout: post
 [4]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/st_fig4.png
 [5]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/cluster_fig5.jpg
 [6]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/GUS_fig6.jpg
+[7]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/CIZ_fig7.png
