@@ -24,15 +24,16 @@ layout: post
 
 2）为了更好的进行细胞注释，又对上述几个时期的材料进行了空间转录组测序(stereo-seq) <br>
 
-<i><b>两种技术结合，共同完成了细胞分类 <br>
+<i><b>两种技术结合，共同完成了细胞分类 </b></i><br>
 
 ![pic2][2]
 
 
 ##### 1.3 结果
 
-###### 单细胞核RNA测序分析
-1）
+###### 1)单细胞核RNA测序分析
+1）对3样本数据分别比对，统计细胞数、基因数等信息
+2）将3组dataset整合，得到了 15个cell clusters
 
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
 [2]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/Schematic_diagram.png
