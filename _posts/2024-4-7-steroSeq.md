@@ -70,14 +70,68 @@ layout: post
 
 ##### 1.4 感染区亚型
 
+
 <p><b>有4个cluster被定位到中心感染区，分别为0，7，11，12。</b></p>
 
-<p>在2022年一篇百脉根<i>Lotus japonocus</i>的单细胞工作，手动分离了细菌侵入的细胞和没有侵入的细胞</p>
+<p>在2022年一篇百脉根<i>Lotus japonocus</i>的单细胞工作，手动分离了被细菌感染的细胞和没有被感染的细胞</p>
 
-<p>因此，本文根据百脉根不同细胞的基因表达模式，将cluster 0，7，11确定为未侵入的细胞，cluster 12为根瘤菌侵入的细胞</p>
+<p>因此，本文根据百脉根不同细胞的基因表达模式，将cluster 0，7，11确定为未感染的细胞(UC)，cluster 12为根瘤菌感染的细胞(IC)</p>
 
 ![pic7][7]
 
+###### 1）UC
+
+<p> 在UC中，cluster 0 在dpi 12，dpi 21两个发育时期都存在，而cluster 7 和 11 基本只存在于dpi 21的根瘤中。</p>
+
+<p>
+	为了揭示这几个不同UC cluster的分化轨迹，对三个cluster做拟时序分析，推断出分化方向是从cluster 0到 7和11，说明这两个cluster是在根瘤成熟过程中从cluster 0发展而来的。
+</p>
+
+<p>在大豆中，根瘤固定的氮主要用于合成脲类物质，合成过程主要发生在UC中。 
+</p>
+
+<p>本文发现，和脲合成有关的尿酸酶和天冬氨酸转移酶基因在3个UC cluster中都表达，特别是在cluster 7中上调。 而脲类物质转运相关的基因主要在cluster 0中表达。
+</p>
+
+![pic8][8]
+
+**以上结果揭示了根瘤细胞内脲类化合物生产和运输的区室化**
+
+<p>另外，β-淀粉酶在 cluster 11 中显著上调，说明cluster 11 参与共生固氮的能量供应。
+</p>
+
+<p>
+总之，这些结果表明，UC可以分为不同的功能特化亚细胞类型，其中两种在根瘤发育的后期出现，这可以促进共生所需的营养和能量来源的交换。
+</p>
+
+###### 2）IC
+
+对于根瘤菌侵染的细胞。<br>
+首先，豆血红蛋白和nodulin基因在cluster 12中显著上调。<br>
+
+<p>
+	另外，编码糖转运蛋白和多个苹果酸合成酶家族的基因也在cluster 12中显著上调，说明大豆根瘤细胞核根瘤菌之间活跃的碳氮交换。
+</p>
+
+<p>
+	对cluster 12进一步聚类，可以将其分为12-0和12-1两种亚细胞类型，其中12-0包含492个细胞，12-1包含38个细胞。<br>
+	12-0在12dpi和21dpi两个发育时期中存在，而12-1几乎完全被12dpi的未成熟根瘤占据。RNA原位杂交可以证实这是两种不同的细胞亚型。
+</p>
+
+![pic9][9]
+
+![pic10][10]
+
+
+<p>编码共生体膜蛋白的基因在12-0中远高于12-1以及其他的cluster，说明溶质在12-0类型细胞的共生体之间更活跃的移动。
+</p>
+
+![pic11][11]
+
+<p>检查了12-1 cluster中的特异性基因，发现50个基因中的6个是先前报道的SNF基因，这一比例显著高于其他cluster的细胞，
+</p>
+
+![pic12][12]
 
 
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
@@ -87,3 +141,8 @@ layout: post
 [5]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/cluster_fig5.jpg
 [6]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/GUS_fig6.jpg
 [7]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/CIZ_fig7.png
+[8]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/CIZ_fig8.png
+[9]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/IC_fig9.png
+[10]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/IC_fig10.png
+[11]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/IC_fig11.png
+[12]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/IC_fig12.png
