@@ -54,16 +54,24 @@ layout: post
 </p>
 
 <p>
-<p> 基于去卷积(deconvolution)的方法，验证了之前注释的cluster，并对其他未注释的cluster完成了注释 </p>
+	<p> 基于去卷积(deconvolution)的方法，验证了之前注释的cluster，并对其他未注释的cluster完成了注释 </p>
 
-1. 未感染细胞 cluster 0; cluster7; cluster 11
-2. 根瘤外皮层 cluster 2; cluster 4
+	1. 未感染细胞 cluster 0; cluster7; cluster 11
+	2. 根瘤外皮层 cluster 2; cluster 4
 
-![pic5][5]
+	![pic5][5]
 </p>
+
+<p>
+	为了验证注释的准确性，对细胞特异性基因进行了GUS染色和RNA原位杂交，结果符合预测
+	![pic6][6]
+</p>
+
+
 
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
 [2]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/Schematic_diagram.png
 [3]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/sn_fig3.jpg
 [4]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/st_fig4.png
 [5]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/cluster_fig5.jpg
+[6]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/GUS_fig6.jpg
