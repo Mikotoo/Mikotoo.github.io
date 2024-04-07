@@ -128,11 +128,22 @@ layout: post
 
 ![pic11][11]
 
-<p>检查了12-1 cluster中的特异性基因，发现50个基因中的6个是先前报道的SNF基因，这一比例显著高于其他cluster的细胞，
+<p>
+	检查了12-1 cluster中的特异性基因，发现50个基因中的9个是先前报道的SNF基因，这一比例显著高于其他cluster的细胞。<br>
+	(6个20年PC综述的，3个近期发现的)
 </p>
 
 ![pic12][12]
 
+<p>
+	进一步发现，这9个基因全都参与了侵染线的形成。说明cluster12-1的细胞可能参与了侵染线延申和根瘤菌释放等功能。
+</p>
+
+<p>
+	最后，本文探索了cluster12-1中一个特异表达基因GLYMA_02G004800，敲除该基因后，50%植株根瘤数目增加，且根瘤的中心感染区呈白色，说明了cluster12-1的细胞在根瘤发育过程中的重要作用。
+</p>
+
+![pic13][13]
 
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
 [2]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/Schematic_diagram.png
@@ -146,3 +157,4 @@ layout: post
 [10]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/IC_fig10.png
 [11]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/IC_fig11.png
 [12]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/IC_fig12.png
+[13]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/IC_fig13.png
