@@ -27,4 +27,4 @@ layout: post
 ![pic2][2]
 
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
-[2]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA
+[2]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/Schematic_diagram.png
