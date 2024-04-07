@@ -58,14 +58,14 @@ layout: post
 
 	1. 未感染细胞 cluster 0; cluster7; cluster 11
 	2. 根瘤外皮层 cluster 2; cluster 4
-
-	![pic5][5]
 </p>
+![pic5][5]
+
 
 <p>
 	为了验证注释的准确性，对细胞特异性基因进行了GUS染色和RNA原位杂交，结果符合预测
-	![pic6][6]
 </p>
+![pic6][6]
 
 
 
