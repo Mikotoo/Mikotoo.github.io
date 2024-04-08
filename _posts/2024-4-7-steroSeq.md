@@ -157,7 +157,42 @@ layout: post
 
 官网[下载][14]后直接解压
 
-###### 2. SAW
+
+###### 2. scanpy
+
+> 用于单细胞数据的下游分析
+
+```
+#shell
+conda install -c conda-forge scanpy python-igraph leidenalg
+```
+
+###### 3. Seurat
+
+> R包，用于单细胞数据的下游分析
+
+```
+#R
+BiocManager::install("Seurat") 
+```
+
+###### 4. scDblFinder
+
+> R包，用于去除双峰
+
+```
+BiocManager::install("scDblFinder")
+``` 
+
+###### 5. scvi-tools; scanorama; harmonypy
+
+> 用于集成单细胞数据
+
+```
+pip install scvi-tools=1.1.2 annoy=1.16.0 scanorama harmonypy
+```
+
+###### 6. SAW
 > 用于处理stereo-seq原始数据
 
 使用Apptainer容器下载
@@ -168,46 +203,61 @@ conda install apptainer
 apptainer build SAW_7.1.sif docker://stomics/saw:07.1.0
 ```
 
-###### 3. scanpy
-
-> 用于单细胞数据的下游分析
-
-```
-#shell
-conda install -c conda-forge scanpy python-igraph leidenalg
-```
-
-###### 4. Seurat
-
-> R包，用于单细胞数据的下游分析
-
-```
-#R
-BiocManager::install("Seurat") 
-```
-
-###### 5. scDblFinder
-
-> R包，用于去除双峰
-
-```
-BiocManager::install("scDblFinder")
-``` 
-
-###### 6. scvi-tools; scanorama; harmonypy
-
-> 用于集成单细胞数据
-
-```
-pip install scvi-tools=1.1.2 annoy=1.16.0 scanorama harmonypy
-```
-
 ###### 7. stereopy
 
 > 用于空转数据的下游分析
 
 ```
-pip install stereopy
+# 在新建的python3.8环境中安装
+
+conda create -n st python=3.8
+conda activate st
+pip install stereopy IPython
+```
+
+###### 8. sctransform
+
+> R包，用于空转数据的标准化
+
+```
+install.packages("sctransform")
+```
+
+###### 9. muon
+
+> 用于空转数据的标准化
+
+```
+pip install muon
+```
+
+###### 10. scVelo
+
+> 用于构建细胞轨迹
+
+```
+pip install scVelo
+```
+
+###### 11. monocle3
+
+> R包，用于构建细胞轨迹
+
+首先，手动安装[rtools][15]
+
+```
+if (!requireNamespace("BiocManager", quietly = TRUE))
+install.packages("BiocManager")
+BiocManager::install(version = "3.14")
+
+BiocManager::install(c('BiocGenerics', 'DelayedArray', 'DelayedMatrixStats',
+                       'limma', 'lme4', 'S4Vectors', 'SingleCellExperiment',
+                       'SummarizedExperiment', 'batchelor', 'HDF5Array',
+                       'terra', 'ggrastr'))
+
+install.packages("devtools")
+options(download.file.method = "wininet")
+devtools::install_github('cole-trapnell-lab/monocle3')
 ```
 
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
@@ -224,3 +274,4 @@ pip install stereopy
 [12]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/IC_fig12.png
 [13]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/IC_fig13.png
 [14]: https://www.10xgenomics.com/support/software/cell-ranger/downloads
+[15]: https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/Rtools/history.html
