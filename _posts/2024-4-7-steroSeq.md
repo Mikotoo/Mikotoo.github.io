@@ -152,16 +152,33 @@ layout: post
 ##### 2.2 空间转录组测序
 
 ### 3、软件安装
-##### 3.1 Cell Ranger
-> 
+###### 1. Cell Ranger
+> 用于处理单细胞原始数据
+官网[下载][https://www.10xgenomics.com/support/software/cell-ranger/downloads]直接解压
+###### 2. SAW
+> 用于处理stereo-seq原始数据
+使用Apptainer拉取
+```
+#shell
+conda install apptainer
 
+apptainer build SAW_7.1.sif docker://stomics/saw:07.1.0
 
+```
+###### 3. scanpy
+> 用于单细胞数据的下游分析
+```
+#shell
+conda install -c conda-forge scanpy python-igraph leidenalg
 
+```
+###### 4. Seurat
+> R包，用于单细胞数据的下游分析
+```
+#R
+BiocManager::install("Seurat") 
 
-
-
-
-
+```
 
 
 
