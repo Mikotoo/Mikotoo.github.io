@@ -155,19 +155,17 @@ layout: post
 ###### 1. Cell Ranger
 > 用于处理单细胞原始数据
 
-官网[下载][https://www.10xgenomics.com/support/software/cell-ranger/downloads]直接解压
+官网[下载][14]后直接解压
 
 ###### 2. SAW
 > 用于处理stereo-seq原始数据
 
-使用Apptainer拉取
+使用Apptainer容器下载
 
 ```
 #shell
 conda install apptainer
-
 apptainer build SAW_7.1.sif docker://stomics/saw:07.1.0
-
 ```
 
 ###### 3. scanpy
@@ -177,7 +175,6 @@ apptainer build SAW_7.1.sif docker://stomics/saw:07.1.0
 ```
 #shell
 conda install -c conda-forge scanpy python-igraph leidenalg
-
 ```
 
 ###### 4. Seurat
@@ -187,20 +184,31 @@ conda install -c conda-forge scanpy python-igraph leidenalg
 ```
 #R
 BiocManager::install("Seurat") 
-
 ```
 
+###### 5. scDblFinder
 
+> R包，用于去除双峰
 
+```
+BiocManager::install("scDblFinder")
+``` 
 
+###### 6. scvi-tools; scanorama; harmonypy
 
+> 用于集成单细胞数据
 
+```
+pip install scvi-tools=1.1.2 annoy=1.16.0 scanorama harmonypy
+```
 
+###### 7. stereopy
 
+> 用于空转数据的下游分析
 
-
-
-
+```
+pip install stereopy
+```
 
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
 [2]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/Schematic_diagram.png
@@ -215,3 +223,4 @@ BiocManager::install("Seurat")
 [11]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/IC_fig11.png
 [12]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/IC_fig12.png
 [13]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/IC_fig13.png
+[14]: https://www.10xgenomics.com/support/software/cell-ranger/downloads
