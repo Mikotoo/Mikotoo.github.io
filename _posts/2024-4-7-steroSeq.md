@@ -10,7 +10,7 @@ layout: post
 > 本文作者是南方科技大学翟继先老师，文章相关的数据和[代码][1]已经公开。
 
 
-#### 1、文献概述
+### 1、文献概述
 ##### 1.1 研究目的
 <p>大豆的共生固氮器官根瘤作为一种高度异质的组织，其各种类型的细胞都具有不同的生理特点和功能。</p>
 <p>本文的研究目的是了解根瘤中不同类型的细胞在根瘤成熟过程中的具体贡献，以及细胞之间的关系。</p>
@@ -144,6 +144,36 @@ layout: post
 </p>
 
 ![pic13][13]
+
+
+
+### 2、测序原理
+##### 2.1 单细胞转录组测序
+##### 2.2 空间转录组测序
+
+### 3、软件安装
+##### 3.1 Cell Ranger
+> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
 [2]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/Schematic_diagram.png
