@@ -310,16 +310,17 @@ conda install -c r rpy2
 
 ###### 18. clusterprofiler
 
-#### 4、复现流程
+### 4、复现流程
 
-##### 4.1 参考基因组
+#### 4.1 参考基因组
 
-**本文使用的基因组为 Soybean Wm82 a2.v1, Arabidopsis [v11][18]**
+**本文使用的基因组为 Soybean [Wm82 a2.v1][19], [Arabidopsis v11][18]**
+
 ```
-wget https://soybase.org/data/v2/Glycine/max/genomes/Wm82.gnm2.DTC4/glyma.Wm82.gnm2.DTC4.genome_main.fna.gz
-wget https://soybase.org/data/v2/Glycine/max/annotations/Wm82.gnm2.ann1.RVB6/glyma.Wm82.gnm2.ann1.RVB6.gene_models_main.gff3.gz
-wget https://soybase.org/data/v2/Glycine/max/annotations/Wm82.gnm2.ann1.RVB6/glyma.Wm82.gnm2.ann1.RVB6.protein_primary.faa.gz
+# gff2gtf
+gffread Wm82v2.gff -T -o Wm82v2.gtf
 ```
+
 
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
 [2]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/Schematic_diagram.png
@@ -339,3 +340,4 @@ wget https://soybase.org/data/v2/Glycine/max/annotations/Wm82.gnm2.ann1.RVB6/gly
 [16]: https://github.com/theislab/batchglm
 [17]: https://github.com/theislab/diffxpy
 [18]: https://data.jgi.doe.gov/refine-download/phytozome?genome_id=447&expanded=Phytozome-447
+[19]: https://data.jgi.doe.gov/refine-download/phytozome?genome_id=275&expanded=Phytozome-275
