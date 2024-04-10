@@ -302,6 +302,25 @@ pip install pyscenic
 
 > 用于在python环境中调用R包
 
+```
+conda install -c r rpy2
+```
+
+###### 17. OrthoFinder 
+
+###### 18. clusterprofiler
+
+#### 4、复现流程
+
+##### 4.1 参考基因组
+
+**本文使用的基因组为 Soybean Wm82 a2.v1, Arabidopsis [v11][18]**
+```
+wget https://soybase.org/data/v2/Glycine/max/genomes/Wm82.gnm2.DTC4/glyma.Wm82.gnm2.DTC4.genome_main.fna.gz
+wget https://soybase.org/data/v2/Glycine/max/annotations/Wm82.gnm2.ann1.RVB6/glyma.Wm82.gnm2.ann1.RVB6.gene_models_main.gff3.gz
+wget https://soybase.org/data/v2/Glycine/max/annotations/Wm82.gnm2.ann1.RVB6/glyma.Wm82.gnm2.ann1.RVB6.protein_primary.faa.gz
+```
+
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
 [2]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/Schematic_diagram.png
 [3]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/sn_fig3.jpg
@@ -319,3 +338,4 @@ pip install pyscenic
 [15]: https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/Rtools/history.html
 [16]: https://github.com/theislab/batchglm
 [17]: https://github.com/theislab/diffxpy
+[18]: https://data.jgi.doe.gov/refine-download/phytozome?genome_id=447&expanded=Phytozome-447
