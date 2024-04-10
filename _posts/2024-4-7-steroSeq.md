@@ -326,6 +326,18 @@ conda install -c r rpy2
 gffread Wm82v2.gff -T -o Wm82v2.gtf
 ```
 
+#### 4.2 为cellRanger构建index
+
+```
+cellranger mkref --genome=Wm82v2 --nthreads=48 --fasta=Wm82v2_genome.fa --genes=Wm82v2.gtf
+```
+
+成功之后的index文件：<br>
+![pic20][20]
+
+#### 4.3 cellRanger获取表达矩阵
+
+
 
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
 [2]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/Schematic_diagram.png
@@ -346,3 +358,4 @@ gffread Wm82v2.gff -T -o Wm82v2.gtf
 [17]: https://github.com/theislab/diffxpy
 [18]: https://data.jgi.doe.gov/refine-download/phytozome?genome_id=447&expanded=Phytozome-447
 [19]: https://data.jgi.doe.gov/refine-download/phytozome?genome_id=275&expanded=Phytozome-275
+[20]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/indexResult_fig20.png
