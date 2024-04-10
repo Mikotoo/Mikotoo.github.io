@@ -165,6 +165,8 @@ layout: post
 ```
 #shell
 conda install -c conda-forge scanpy python-igraph leidenalg
+or
+pip install scanpy
 ```
 
 ###### 3. Seurat
@@ -189,7 +191,7 @@ BiocManager::install("scDblFinder")
 > 用于集成单细胞数据
 
 ```
-pip install scvi-tools=1.1.2 annoy=1.16.0 scanorama harmonypy
+pip install scvi-tools annoy==1.16.0 scanorama harmonypy
 ```
 
 ###### 6. SAW
@@ -259,6 +261,46 @@ install.packages("devtools")
 options(download.file.method = "wininet")
 devtools::install_github('cole-trapnell-lab/monocle3')
 ```
+上述方法本地安装成功，但是服务器安装失败。使用conda安装成功。`conda install -c bioconda -y r-monocle3`
+
+###### 12. cellrank
+
+> 用于构建细胞轨迹
+
+```
+conda create -n cellrank python=3.8
+conda activate cellrank
+pip install cellrank
+```
+
+###### 13. diffxpy
+
+> 用于鉴定差异表达基因
+
+先下载[batchglm][16]源码目录，解压打开目录 `pip install -e .`
+
+然后下载[diffxpy][17]源码目录，解压打开后 `pip install -e .`
+
+
+###### 14. AUCell
+
+> R包，用于计算基因集表达分数
+
+```
+BiocManager::install("AUCell")
+```
+
+###### 15. pyscenic 
+
+> 用于计算基因集表达分数
+
+```
+pip install pyscenic
+```
+
+###### 16. rpy2
+
+> 用于在python环境中调用R包
 
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
 [2]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/Schematic_diagram.png
@@ -275,3 +317,5 @@ devtools::install_github('cole-trapnell-lab/monocle3')
 [13]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/IC_fig13.png
 [14]: https://www.10xgenomics.com/support/software/cell-ranger/downloads
 [15]: https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/Rtools/history.html
+[16]: https://github.com/theislab/batchglm
+[17]: https://github.com/theislab/diffxpy
