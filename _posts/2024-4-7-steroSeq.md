@@ -152,6 +152,11 @@ layout: post
 ##### 2.2 空间转录组测序
 
 ### 3、软件安装
+
+###### 0. snakemake
+
+> 用于执行snakefile任务
+
 ###### 1. Cell Ranger
 > 用于处理单细胞原始数据
 
