@@ -321,9 +321,14 @@ conda install -c r rpy2
 
 **本文使用的基因组为 Soybean [Wm82 a2.v1][19], [Arabidopsis v11][18]**
 
+<p>准备流程需要的gtf和bed文件：</p>
+
 ```
 # gff2gtf
 gffread Wm82v2.gff -T -o Wm82v2.gtf
+
+# gff2bed
+paftools.js gff2bed Wm82v2.gtf -j > Wm82v2_junc.bed
 ```
 
 #### 4.2 为cellRanger构建index
