@@ -359,13 +359,14 @@ cellranger mkref --genome=Wm82v2 --nthreads=48 --fasta=Wm82v2_genome.fa --genes=
 
 ### 4.3 cellRanger获取表达矩阵
 
+> 项目路径 `/share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/`
 
 **[作者已经把程序打包][21]** <br>
 
 用snakemake封装了3个step:
 
 1. cellranger count 比对
-2. 自定义python脚本，从比对结果的bam文件中获取UMI信息
+2. 自定义[python脚本][25]，从比对结果的bam文件中获取UMI信息
 3. velocyto, 从比对结果中获取loom文件
 
 由于数据目录、软件版本、conda环境等的不同，我对snakefile文件进行了[修改][22]
@@ -394,7 +395,7 @@ config.yaml文件作为索引，存储了工作目录、参考基因组路径、
 
 每个样本的原始数据分别存储到不同的目录，并以特定的格式命名： **sample_S1_L001_R1(R2)_001.fastq.gz** 
 
-![pic23][23]
+![pic23][24]
 
 **准备完成后，在snakefile所在目录下输入`snakemake`命令，snakemake会自动运行**
 
@@ -411,14 +412,17 @@ config.yaml文件作为索引，存储了工作目录、参考基因组路径、
 
 ##### 2 构建df
 
-snakemake的开头部分(rule之前),主要通过df.pipe和df.assign方法，将config.yaml中的信息输入，为后续步骤构建了dataframe索引
+snakemake的开头部分(rule之前),主要通过**df.pipe**和**df.assign**方法，将**config.yaml**中的信息输入，为后续步骤构建了dataframe索引
 
 ##### 3 cellranger比对
 
-使用cellranger进行细胞定量，输出文件保存在 /share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step1_cellRanger/nodule_large/nodule_large/outs 中
+使用**cellranger**进行细胞定量，输出文件保存在 /share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step1_cellRanger/nodule_large/nodule_large/outs 中
 
 ##### 4 提取UMI
 
+##### 5 velocyto获取loom文件
+
+文件保存在/share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step1_cellRanger/nodule_large/nodule_large/velocyto中
 
 
 
@@ -445,4 +449,5 @@ snakemake的开头部分(rule之前),主要通过df.pipe和df.assign方法，将
 [21]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st/blob/main/main/snakemake_cellranger/snakefile
 [22]: https://github.com/Mikotoo/Mikotoo.github.io/blob/main/code/cellRanger/
 [23]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/dir_fig23.png
-[24]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/dir_fig24.png
+[24]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/radata_fig24.png
+[25]: https://github.com/liuzj039/jpy_tools/blob/master/tools/singleCell/parseUmiDirectionFromCellrangerBam.py
