@@ -395,7 +395,7 @@ config.yaml文件作为索引，存储了工作目录、参考基因组路径、
 
 每个样本的原始数据分别存储到不同的目录，并以特定的格式命名： **sample_S1_L001_R1(R2)_001.fastq.gz** 
 
-![pic23][24]
+![pic24][24]
 
 **准备完成后，在snakefile所在目录下输入`snakemake`命令，snakemake会自动运行**
 
@@ -416,16 +416,26 @@ snakemake的开头部分(rule之前),主要通过**df.pipe**和**df.assign**方�
 
 ##### 3 cellranger比对
 
-使用**cellranger**进行细胞定量，输出文件保存在 `/share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step1_cellRanger/nodule_large/nodule_large/outs`
+使用**cellranger**进行细胞定量，输出文件保存在 
 
+```
+/share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step1_cellRanger/nodule_large/nodule_large/outs
+```
 ##### 4 提取UMI
 
-输出文件保存在`/share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step2_parseUmiDr`
+输出文件保存在
+
+```
+/share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step2_parseUmiDr
+```
 
 ##### 5 velocyto获取loom文件
 
-输出文件保存在`/share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step1_cellRanger/nodule_large/nodule_large/velocyto`
+输出文件保存在
 
+```
+/share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step1_cellRanger/nodule_large/nodule_large/velocyto
+```
 
 
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
@@ -451,5 +461,5 @@ snakemake的开头部分(rule之前),主要通过**df.pipe**和**df.assign**方�
 [21]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st/blob/main/main/snakemake_cellranger/snakefile
 [22]: https://github.com/Mikotoo/Mikotoo.github.io/blob/main/code/cellRanger/
 [23]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/dir_fig23.png
-[24]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/radata_fig24.png
+[24]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/rawdata_fig24.png
 [25]: https://github.com/liuzj039/jpy_tools/blob/master/tools/singleCell/parseUmiDirectionFromCellrangerBam.py
