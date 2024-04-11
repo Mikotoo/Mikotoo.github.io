@@ -352,10 +352,10 @@ paftools.js gff2bed Wm82v2.gtf -j > Wm82v2_junc.bed
 cellranger mkref --genome=Wm82v2 --nthreads=48 --fasta=Wm82v2_genome.fa --genes=Wm82v2.gtf
 ```
 
-**注意：构建索引后，必须把索引目录中的genes/prefix.gtf.gz解压，否则**
-
 成功之后的index文件：<br>
 ![pic20][20]
+
+**注意：构建索引后，必须把索引目录中的genes/genes.gtf.gz解压，否则后续流程无法正常运行**
 
 ### 4.3 cellRanger获取表达矩阵
 
@@ -370,7 +370,57 @@ cellranger mkref --genome=Wm82v2 --nthreads=48 --fasta=Wm82v2_genome.fa --genes=
 
 由于数据目录、软件版本、conda环境等的不同，我对snakefile文件进行了[修改][22]
 
-#####
+#### 4.3.1 项目目录的组织
+
+<p>
+	Snakemake是基于python3的数据分析流程构建工具，可以通过它将一系列任务组织起来，并通过config文件构建一个可重复、可扩展的pipeline<br>
+	它可以结合conda，将流程扩展到服务器、集群环境中使用<br>
+	还可以根据任务之间的依赖关系，智能的并行可以并行执行的任务
+</p>
+
+<p>
+	Snakemake将以在提交任务时激活的conda环境为默认环境，如果流程中的不同步骤依赖不同的conda环境，可以在rule中加入conda yaml作为参数，snakemake将据此在.snakemake/conda目录中创建所需的环境。<br>
+	本项目的第三步velocyto需要一个单独的conda环境，因此需要导出它的yaml文件备用
+</p>
+
+```
+conda env export -n velocyto -f velocyto.yaml
+```
+
+**程序被编写到snakefile文件中；<br>
+config.yaml文件作为索引，存储了工作目录、参考基因组路径、原始数据路径等信息;<br>**
+
+![pic23][23]
+
+每个样本的原始数据分别存储到不同的目录，并以特定的格式命名： **sample_S1_L001_R1(R2)_001.fastq.gz** 
+
+![pic23][23]
+
+**准备完成后，在snakefile所在目录下输入`snakemake`命令，snakemake会自动运行**
+
+#### 4.3.2 snakefile流程注释
+
+##### 1 config.yaml
+
+1. cellRangerPath: cellranger的路径，似乎没有用到
+2. cellRangerIndex: cellranger注释所在目录，见4.2
+3. resultDir: 结果文件保存路径，需要先makedir建好
+4. pipelineDir: 流程中间文件保存路径，这里设置和resultDir一致
+5. genomeBed: 基因组bed12格式的注释文件，第二步提取UMI所用，见4.1
+6. Samples: 单细胞测序原始数据信息
+
+##### 2 构建df
+
+snakemake的开头部分(rule之前),主要通过df.pipe和df.assign方法，将config.yaml中的信息输入，为后续步骤构建了dataframe索引
+
+##### 3 cellranger比对
+
+使用cellranger进行细胞定量，输出文件保存在 /share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step1_cellRanger/nodule_large/nodule_large/outs 中
+
+##### 4 提取UMI
+
+
+
 
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
 [2]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/Schematic_diagram.png
@@ -394,3 +444,5 @@ cellranger mkref --genome=Wm82v2 --nthreads=48 --fasta=Wm82v2_genome.fa --genes=
 [20]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/indexResult_fig20.png
 [21]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st/blob/main/main/snakemake_cellranger/snakefile
 [22]: https://github.com/Mikotoo/Mikotoo.github.io/blob/main/code/cellRanger/
+[23]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/dir_fig23.png
+[24]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/dir_fig24.png
