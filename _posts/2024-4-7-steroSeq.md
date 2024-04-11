@@ -162,19 +162,32 @@ layout: post
 
 官网[下载][14]后直接解压
 
+```
+pip install loguru pyranges
+```
 
-###### 2. scanpy
+###### 2. velocyto
+
+> 细胞速率分析
+conda create -n velocyto python=3.8
+conda activate velocyto
+conda install numpy scipy cython numba matplotlib scikit-learn h5py click
+pip install velocyto
+
+
+###### 3. scanpy
 
 > 用于单细胞数据的下游分析
 
 ```
-#shell
+conda create -n singleCell python=3.8
+conda activate singleCell
 conda install -c conda-forge scanpy python-igraph leidenalg
 or
 pip install scanpy
 ```
 
-###### 3. Seurat
+###### 4. Seurat
 
 > R包，用于单细胞数据的下游分析
 
@@ -183,7 +196,7 @@ pip install scanpy
 BiocManager::install("Seurat") 
 ```
 
-###### 4. scDblFinder
+###### 5. scDblFinder
 
 > R包，用于去除双峰
 
@@ -191,7 +204,7 @@ BiocManager::install("Seurat")
 BiocManager::install("scDblFinder")
 ``` 
 
-###### 5. scvi-tools; scanorama; harmonypy
+###### 6. scvi-tools; scanorama; harmonypy
 
 > 用于集成单细胞数据
 
@@ -199,7 +212,7 @@ BiocManager::install("scDblFinder")
 pip install scvi-tools annoy==1.16.0 scanorama harmonypy
 ```
 
-###### 6. SAW
+###### 7. SAW
 > 用于处理stereo-seq原始数据
 
 使用Apptainer容器下载
@@ -210,7 +223,7 @@ conda install apptainer
 apptainer build SAW_7.1.sif docker://stomics/saw:07.1.0
 ```
 
-###### 7. stereopy
+###### 8. stereopy
 
 > 用于空转数据的下游分析
 
@@ -222,7 +235,7 @@ conda activate st
 pip install stereopy IPython
 ```
 
-###### 8. sctransform
+###### 9. sctransform
 
 > R包，用于空转数据的标准化
 
@@ -230,7 +243,7 @@ pip install stereopy IPython
 install.packages("sctransform")
 ```
 
-###### 9. muon
+###### 10. muon
 
 > 用于空转数据的标准化
 
@@ -238,7 +251,7 @@ install.packages("sctransform")
 pip install muon
 ```
 
-###### 10. scVelo
+###### 11. scVelo
 
 > 用于构建细胞轨迹
 
@@ -246,7 +259,7 @@ pip install muon
 pip install scVelo
 ```
 
-###### 11. monocle3
+###### 12. monocle3
 
 > R包，用于构建细胞轨迹
 
@@ -268,7 +281,7 @@ devtools::install_github('cole-trapnell-lab/monocle3')
 ```
 上述方法本地安装成功，但是服务器安装失败。使用conda安装成功。`conda install -c bioconda -y r-monocle3`
 
-###### 12. cellrank
+###### 13. cellrank
 
 > 用于构建细胞轨迹
 
@@ -278,7 +291,7 @@ conda activate cellrank
 pip install cellrank
 ```
 
-###### 13. diffxpy
+###### 14. diffxpy
 
 > 用于鉴定差异表达基因
 
@@ -287,7 +300,7 @@ pip install cellrank
 然后下载[diffxpy][17]源码目录，解压打开后 `pip install -e .`
 
 
-###### 14. AUCell
+###### 15. AUCell
 
 > R包，用于计算基因集表达分数
 
@@ -295,7 +308,7 @@ pip install cellrank
 BiocManager::install("AUCell")
 ```
 
-###### 15. pyscenic 
+###### 16. pyscenic 
 
 > 用于计算基因集表达分数
 
@@ -303,7 +316,7 @@ BiocManager::install("AUCell")
 pip install pyscenic
 ```
 
-###### 16. rpy2
+###### 17. rpy2
 
 > 用于在python环境中调用R包
 
@@ -311,9 +324,9 @@ pip install pyscenic
 conda install -c r rpy2
 ```
 
-###### 17. OrthoFinder 
+###### 18. OrthoFinder 
 
-###### 18. clusterprofiler
+###### 19. clusterprofiler
 
 ### 4、复现流程
 
@@ -331,11 +344,15 @@ gffread Wm82v2.gff -T -o Wm82v2.gtf
 paftools.js gff2bed Wm82v2.gtf -j > Wm82v2_junc.bed
 ```
 
+> paftools.js是minimap2的一部分，如果报错，尝试从github下载最新版的paftools.js文件,替换bin目录`which paftools.js`中现有的paftools.js。
+
 #### 4.2 为cellRanger构建index
 
 ```
 cellranger mkref --genome=Wm82v2 --nthreads=48 --fasta=Wm82v2_genome.fa --genes=Wm82v2.gtf
 ```
+
+**注意：构建索引后，必须把索引目录中的genes/prefix.gtf.gz解压，否则**
 
 成功之后的index文件：<br>
 ![pic20][20]
@@ -343,6 +360,15 @@ cellranger mkref --genome=Wm82v2 --nthreads=48 --fasta=Wm82v2_genome.fa --genes=
 #### 4.3 cellRanger获取表达矩阵
 
 
+**[作者已经把程序打包][21]** <br>
+
+用snakemake封装了3个step:
+
+1. cellranger count 比对
+2. 自定义python脚本，从比对结果的bam文件中获取UMI信息
+3. velocyto, 从比对结果中获取loom文件
+
+由于数据目录、软件版本等的不同，我对snakefile文件进行了[修改][22]
 
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
 [2]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/Schematic_diagram.png
@@ -364,3 +390,5 @@ cellranger mkref --genome=Wm82v2 --nthreads=48 --fasta=Wm82v2_genome.fa --genes=
 [18]: https://data.jgi.doe.gov/refine-download/phytozome?genome_id=447&expanded=Phytozome-447
 [19]: https://data.jgi.doe.gov/refine-download/phytozome?genome_id=275&expanded=Phytozome-275
 [20]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/indexResult_fig20.png
+[21]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st/blob/main/main/snakemake_cellranger/snakefile
+[22]: 
