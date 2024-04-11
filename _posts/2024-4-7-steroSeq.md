@@ -416,13 +416,15 @@ snakemake的开头部分(rule之前),主要通过**df.pipe**和**df.assign**方�
 
 ##### 3 cellranger比对
 
-使用**cellranger**进行细胞定量，输出文件保存在 /share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step1_cellRanger/nodule_large/nodule_large/outs 中
+使用**cellranger**进行细胞定量，输出文件保存在 `/share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step1_cellRanger/nodule_large/nodule_large/outs`
 
 ##### 4 提取UMI
 
+输出文件保存在`/share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step2_parseUmiDr`
+
 ##### 5 velocyto获取loom文件
 
-文件保存在/share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step1_cellRanger/nodule_large/nodule_large/velocyto中
+输出文件保存在`/share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step1_cellRanger/nodule_large/nodule_large/velocyto`
 
 
 
