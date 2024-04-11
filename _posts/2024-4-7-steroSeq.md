@@ -328,8 +328,14 @@ conda install -c r rpy2
 
 ###### 19. clusterprofiler
 
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------
 ## 4、复现流程
 
+
+-----------------------------------------------------------------------------------------------------------------------------
 ### 4.1 参考基因组
 
 **本文使用的基因组为 Soybean [Wm82 a2.v1][19], [Arabidopsis v11][18]**
@@ -346,6 +352,9 @@ paftools.js gff2bed Wm82v2.gtf -j > Wm82v2_junc.bed
 
 > paftools.js是minimap2的一部分，如果报错，尝试从github下载最新版的paftools.js文件,替换bin目录`which paftools.js`中现有的paftools.js。
 
+
+
+-----------------------------------------------------------------------------------------------------------------------------
 ### 4.2 为cellRanger构建index
 
 ```
@@ -357,6 +366,10 @@ cellranger mkref --genome=Wm82v2 --nthreads=48 --fasta=Wm82v2_genome.fa --genes=
 
 **注意：构建索引后，必须把索引目录中的genes/genes.gtf.gz解压，否则后续流程无法正常运行**
 
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------
 ### 4.3 cellRanger获取表达矩阵
 
 > 项目路径 `/share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/`
@@ -437,7 +450,25 @@ snakemake的开头部分(rule之前),主要通过**df.pipe**和**df.assign**方�
 /share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step1_cellRanger/nodule_large/nodule_large/velocyto
 ```
 
+---------------------------------------------------------------------------------------------------------------------------
+### 4.4 质控
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
 [2]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/Schematic_diagram.png
 [3]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/sn_fig3.jpg
