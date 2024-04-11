@@ -10,12 +10,12 @@ layout: post
 > 本文作者是南方科技大学翟继先老师，文章相关的数据和[代码][1]已经公开。
 
 
-### 1、文献概述
-##### 1.1 研究目的
+## 1、文献概述
+#### 1.1 研究目的
 <p>大豆的共生固氮器官根瘤作为一种高度异质的组织，其各种类型的细胞都具有不同的生理特点和功能。</p>
 <p>本文的研究目的是了解根瘤中不同类型的细胞在根瘤成熟过程中的具体贡献，以及细胞之间的关系。</p>
 
-##### 1.2 建库测序
+#### 1.2 建库测序
 1）为了揭示根瘤成熟过程中的cell-type-specific动态基因表达，选取3个样本进行了单细胞核测序(10X Genomics Chromium): <br>
 
 1. 接种12天的根瘤 (sn_12dpi)
@@ -29,7 +29,7 @@ layout: post
 ![pic2][2]
 
 
-##### 1.3 聚类与注释
+#### 1.3 聚类与注释
 
 ###### 1）单细胞核RNA测序分析
 1. 对3样本数据分别比对，统计细胞数、基因数等信息
@@ -68,7 +68,7 @@ layout: post
 ![pic6][6]
 
 
-##### 1.4 感染区亚型
+#### 1.4 感染区亚型
 
 
 <p><b>有4个cluster被定位到中心感染区，分别为0，7，11，12。</b></p>
@@ -147,11 +147,11 @@ layout: post
 
 
 
-### 2、测序原理
-##### 2.1 单细胞转录组测序
-##### 2.2 空间转录组测序
+## 2、测序原理
+### 2.1 单细胞转录组测序
+### 2.2 空间转录组测序
 
-### 3、软件安装
+## 3、软件安装
 
 ###### 0. snakemake
 
@@ -328,9 +328,9 @@ conda install -c r rpy2
 
 ###### 19. clusterprofiler
 
-### 4、复现流程
+## 4、复现流程
 
-#### 4.1 参考基因组
+### 4.1 参考基因组
 
 **本文使用的基因组为 Soybean [Wm82 a2.v1][19], [Arabidopsis v11][18]**
 
@@ -346,7 +346,7 @@ paftools.js gff2bed Wm82v2.gtf -j > Wm82v2_junc.bed
 
 > paftools.js是minimap2的一部分，如果报错，尝试从github下载最新版的paftools.js文件,替换bin目录`which paftools.js`中现有的paftools.js。
 
-#### 4.2 为cellRanger构建index
+### 4.2 为cellRanger构建index
 
 ```
 cellranger mkref --genome=Wm82v2 --nthreads=48 --fasta=Wm82v2_genome.fa --genes=Wm82v2.gtf
@@ -357,7 +357,7 @@ cellranger mkref --genome=Wm82v2 --nthreads=48 --fasta=Wm82v2_genome.fa --genes=
 成功之后的index文件：<br>
 ![pic20][20]
 
-#### 4.3 cellRanger获取表达矩阵
+### 4.3 cellRanger获取表达矩阵
 
 
 **[作者已经把程序打包][21]** <br>
@@ -368,7 +368,9 @@ cellranger mkref --genome=Wm82v2 --nthreads=48 --fasta=Wm82v2_genome.fa --genes=
 2. 自定义python脚本，从比对结果的bam文件中获取UMI信息
 3. velocyto, 从比对结果中获取loom文件
 
-由于数据目录、软件版本等的不同，我对snakefile文件进行了[修改][22]
+由于数据目录、软件版本、conda环境等的不同，我对snakefile文件进行了[修改][22]
+
+#####
 
 [1]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st
 [2]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/Schematic_diagram.png
@@ -391,4 +393,4 @@ cellranger mkref --genome=Wm82v2 --nthreads=48 --fasta=Wm82v2_genome.fa --genes=
 [19]: https://data.jgi.doe.gov/refine-download/phytozome?genome_id=275&expanded=Phytozome-275
 [20]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/indexResult_fig20.png
 [21]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st/blob/main/main/snakemake_cellranger/snakefile
-[22]: 
+[22]: https://github.com/Mikotoo/Mikotoo.github.io/blob/main/code/cellRanger/
