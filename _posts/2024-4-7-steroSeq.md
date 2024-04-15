@@ -441,7 +441,18 @@ snakemake的开头部分(rule之前),主要通过**df.pipe**和**df.assign**方�
 
 此目录中包含每个样本主要的输出文件<br>
 
-1. [web_summary][26] 。
+###### 1) [web_summary][26] 数据比对的整体信息统计
+
+![fig27][27]
+![fig28][28]
+
+
+
+###### 10X matrix
+
+10X的表达矩阵结果由3个文件构成，分别存储了barcodes(细胞)信息，基因信息，表达量信息 <br>
+
+![fig29][29]
 
 ##### 4 提取UMI
 
@@ -504,3 +515,6 @@ snakemake的开头部分(rule之前),主要通过**df.pipe**和**df.assign**方�
 [24]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/rawdata_fig24.png
 [25]: https://github.com/liuzj039/jpy_tools/blob/master/tools/singleCell/parseUmiDirectionFromCellrangerBam.py
 [26]: https://github.com/Mikotoo/Mikotoo.github.io/blob/main/code/single_cell/cellRanger/web_summary.html
+[27]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/summary_fig27.svg
+[28]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/summary_fig28.svg
+[28]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/cellRange_res_fig29.png
