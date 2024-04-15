@@ -602,6 +602,60 @@ figure3： 归一化前后的UMI分布density
 ![fig34][34]
 
 
+### 4.5 数据整合
+
+**为了去除样本的批次效应，需要对数据进行整合**
+
+数据整合的模型有多个，本文作者尝试了scvi, Seurat, Harmony, Scanorama等，发现scvi的整合效果最好。<br>
+
+scvi基于条件变分自动编码器算法，在一系列数据集中表现良好，可以在去除批次效应的同时保留生物变异性。<br>
+
+scvi直接对原始计数进行建模，这也是我们上一步保留原始counts值的原因。 scvi的建模计算需要GPU，否则速度会很慢。<br>
+
+
+```
+#integrate.py
+
+import sys
+import anndata
+import scanpy as sc
+import scvi
+
+data_scaled = anndata.read_h5ad("/share/home/yzwl_zhangchao/Project/soybean_sn/02_QC/_processData/data_scaled.h5ad")
+
+# 首先，提取高可变基因
+
+data = data_scaled
+sc.experimental.pp.highly_variable_genes(
+    data, 
+    flavor="pearson_residuals",
+    layer='counts',
+    batch_key = "Sample",
+    n_top_genes=5000,
+    subset=True,
+    inplace=True,
+)
+
+# scvi建模
+scvi.model.SCVI.setup_anndata(data, layer = "counts",
+                             categorical_covariate_keys=["Sample"],
+                             continuous_covariate_keys=['total_counts'])
+
+model = scvi.model.SCVI(data)
+
+model.train()
+
+latent = model.get_latent_representation()
+
+data.obsm['X_scVI'] = latent
+
+data.layers['scvi_normalized'] = model.get_normalized_expression(library_size = 1e4)
+
+data.write_h5ad("_processData/data_integrated.h5ad")
+```
+
+
+
 
 
 
