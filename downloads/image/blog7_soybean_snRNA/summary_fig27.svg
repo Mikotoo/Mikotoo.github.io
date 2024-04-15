@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 23.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
+	 viewBox="0 0 398 437" style="enable-background:new 0 0 398 437;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:#F15A24;}
 	.st1{font-family:'AdobeSongStd-Light-GBpc-EUC-H';}
 	.st2{font-size:12px;}
+	.st3{enable-background:new    ;}
+	.st4{font-family:'ArialMT';}
 </style>
-<image style="overflow:visible;" width="501" height="551" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfUAAAInCAYAAACBVsCoAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
+<image style="overflow:visible;enable-background:new    ;" width="501" height="551" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfUAAAInCAYAAACBVsCoAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
 jwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAI+vSURBVHhe7d0LXFTlvj/+T2FDUlhe0jZIiVqo
 7ZAUDltws4WjYqZSedtH1H+g/UPdG9yZ2FHUUnQn5g78p9JPxX6KniAtUVJMQzdHTIJMsRRKxULI
 C2oxis0Ezv9ZMw8wM9wGGBDHz/v1Wvo8a82sG7PWdz2XtdZ9OgFERER017tf/k9ERER3OQZ1IiIi
@@ -654,9 +656,9 @@ IxjUiYiIbASDOhERkY1gUCciIrIRDOpEREQ2gkGdiIjIRlQF9fvuuw+3b9+WOSIiImoLlNisxGhL
 VAX1Bx54AOXl5TJHREREbYESm5UYbYmqoO7g4IAbN27IHBEREbUFarVaH6MtUfXqVcWvv/6KiooK
 PPzww2jXrh3uv59N7kRERK1NqXJXSuhKYdvOzg6PPPKInFI/k6CuKCsr0w+///47zCYRERFRK1Da
 0JUqd6WEbmkpXVEjqBMREdHdifXrRERENoJBnYiIyEYwqBMREdkIBnUiIiKbAPz/75OQWrx6Av0A
-AAAASUVORK5CYII=" transform="matrix(0.75 0 0 0.75 110 213.8898)">
+AAAASUVORK5CYII=" transform="matrix(0.75 0 0 0.75 11 17)">
 </image>
-<text transform="matrix(1 0 0 1 238.4449 293.0008)" class="st0 st1 st2">样本检测到的细胞数</text>
-<text transform="matrix(1 0 0 1 149.5 388.3127)" class="st0 st1 st2">每个细胞的平均reads</text>
-<text transform="matrix(1 0 0 1 323.5125 388.3126)" class="st0 st1 st2">每个细胞基因数的中位数</text>
+<text transform="matrix(1 0 0 1 139.4449 96.111)" class="st0 st1 st2">样本检测到的细胞数</text>
+<text transform="matrix(1 0 0 1 50.5 191.4229)" class="st3"><tspan x="0" y="0" class="st0 st1 st2">每个细胞的平均</tspan><tspan x="84" y="0" class="st0 st4 st2">reads</tspan></text>
+<text transform="matrix(1 0 0 1 224.5125 191.4228)" class="st0 st1 st2">每个细胞基因数的中位数</text>
 </svg>

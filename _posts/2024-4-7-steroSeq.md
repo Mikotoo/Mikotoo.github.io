@@ -169,11 +169,12 @@ pip install loguru pyranges
 ###### 2. velocyto
 
 > 细胞速率分析
+```
 conda create -n velocyto python=3.8
 conda activate velocyto
 conda install numpy scipy cython numba matplotlib scikit-learn h5py click
 pip install velocyto
-
+```
 
 ###### 3. scanpy
 
@@ -446,13 +447,15 @@ snakemake的开头部分(rule之前),主要通过**df.pipe**和**df.assign**方�
 ![fig27][27]
 ![fig28][28]
 
-
-
-###### 10X matrix
+###### 2) 10X matrix
 
 10X的表达矩阵结果由3个文件构成，分别存储了barcodes(细胞)信息，基因信息，表达量信息 <br>
 
 ![fig29][29]
+
+此目录可以被scanpy或seurat等软件读取为AnnData格式，以进行下游分析。
+
+AnnData是python中针对单细胞RNA测序所设计的一种数据格式，具体信息可以参考[官方文档][30]或者[介绍][31]
 
 ##### 4 提取UMI
 
@@ -517,4 +520,6 @@ snakemake的开头部分(rule之前),主要通过**df.pipe**和**df.assign**方�
 [26]: https://github.com/Mikotoo/Mikotoo.github.io/blob/main/code/single_cell/cellRanger/web_summary.html
 [27]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/summary_fig27.svg
 [28]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/summary_fig28.svg
-[29]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/cellRange_res_fig29.png
+[29]: https://github.com/Mikotoo/Mikotoo.github.io/blob/main/downloads/image/blog7_soybean_snRNA/cellRanger_res_fig29.png
+[30]: https://anndata.readthedocs.io/en/latest/
+[31]: https://www.jianshu.com/p/9b057e105c42
