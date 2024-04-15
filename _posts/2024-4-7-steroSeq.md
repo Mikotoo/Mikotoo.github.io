@@ -517,4 +517,4 @@ snakemake的开头部分(rule之前),主要通过**df.pipe**和**df.assign**方�
 [26]: https://github.com/Mikotoo/Mikotoo.github.io/blob/main/code/single_cell/cellRanger/web_summary.html
 [27]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/summary_fig27.svg
 [28]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/summary_fig28.svg
-[28]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/cellRange_res_fig29.png
+[29]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/cellRange_res_fig29.png
