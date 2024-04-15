@@ -517,9 +517,9 @@ AnnData是python中针对单细胞RNA测序所设计的一种数据格式，具�
 [23]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/dir_fig23.png
 [24]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/rawdata_fig24.png
 [25]: https://github.com/liuzj039/jpy_tools/blob/master/tools/singleCell/parseUmiDirectionFromCellrangerBam.py
-[26]: https://github.com/Mikotoo/Mikotoo.github.io/blob/main/code/single_cell/cellRanger/web_summary.html
+[26]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/cellRanger/web_summary.html
 [27]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/summary_fig27.svg
 [28]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/summary_fig28.svg
-[29]: https://github.com/Mikotoo/Mikotoo.github.io/blob/main/downloads/image/blog7_soybean_snRNA/cellRanger_res_fig29.png
+[29]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/cellRanger_res_fig29.png
 [30]: https://anndata.readthedocs.io/en/latest/
 [31]: https://www.jianshu.com/p/9b057e105c42
