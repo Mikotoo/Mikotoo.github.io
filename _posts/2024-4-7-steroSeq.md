@@ -193,7 +193,9 @@ pip install scanpy
 
 ```
 #R
-BiocManager::install("Seurat") 
+BiocManager::install("Seurat")
+or
+conda install conda-forge::r-seurat
 ```
 
 ###### 5. scDblFinder
@@ -202,6 +204,8 @@ BiocManager::install("Seurat")
 
 ```
 BiocManager::install("scDblFinder")
+or
+conda install bioconda::bioconductor-scdblfinder
 ``` 
 
 ###### 6. scvi-tools; scanorama; harmonypy
@@ -434,6 +438,11 @@ snakemake的开头部分(rule之前),主要通过**df.pipe**和**df.assign**方�
 ```
 /share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step1_cellRanger/nodule_large/nodule_large/outs
 ```
+
+此目录中包含每个样本主要的输出文件<br>
+
+1. [web_summary][]
+
 ##### 4 提取UMI
 
 输出文件保存在
@@ -490,7 +499,8 @@ snakemake的开头部分(rule之前),主要通过**df.pipe**和**df.assign**方�
 [19]: https://data.jgi.doe.gov/refine-download/phytozome?genome_id=275&expanded=Phytozome-275
 [20]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/indexResult_fig20.png
 [21]: https://github.com/ZhaiLab-SUSTech/soybean_sn_st/blob/main/main/snakemake_cellranger/snakefile
-[22]: https://github.com/Mikotoo/Mikotoo.github.io/blob/main/code/cellRanger/
+[22]: https://github.com/Mikotoo/Mikotoo.github.io/tree/main/code/single_cell/cellRanger
 [23]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/dir_fig23.png
 [24]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/rawdata_fig24.png
 [25]: https://github.com/liuzj039/jpy_tools/blob/master/tools/singleCell/parseUmiDirectionFromCellrangerBam.py
+[26]: https://github.com/Mikotoo/Mikotoo.github.io/blob/main/code/single_cell/cellRanger/web_summary.html

@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/share/home/yzwl_zhangchao/Project/soybean_sn/02_QC/dimenRedu.py", line 43, in <module>
+    sc.pl.embedding(data,basis='scvi_umap',frameon='small',ax=axes[2,0],color="Sample")
+IndexError: index 2 is out of bounds for axis 0 with size 2
+Job 9856660 stderr output:
+
+Traceback (most recent call last):
+  File "/share/home/yzwl_zhangchao/Project/soybean_sn/02_QC/dimenRedu.py", line 44, in <module>
+    sc.pl.embedding(data,basis='pca_scvi_umap',frameon='small',ax=axes[2,1],color="Sample")
+  File "/share/home/yzwl_zhangchao/anaconda3/envs/scvi/lib/python3.9/site-packages/scanpy/plotting/_tools/scatterplots.py", line 132, in embedding
+    basis_values = _get_basis(adata, basis)
+  File "/share/home/yzwl_zhangchao/anaconda3/envs/scvi/lib/python3.9/site-packages/scanpy/plotting/_tools/scatterplots.py", line 1158, in _get_basis
+    raise KeyError(f"Could not find '{basis}' or 'X_{basis}' in .obsm")
+KeyError: "Could not find 'pca_scvi_umap' or 'X_pca_scvi_umap' in .obsm"
+Job 9856665 stderr output:
+
+Job 9856668 stderr output:
+
