@@ -476,11 +476,130 @@ AnnData是python中针对单细胞RNA测序所设计的一种数据格式，具�
 ---------------------------------------------------------------------------------------------------------------------------
 ### 4.4 质控
 
+**由于测序技术或细胞状态的原因，我们得到的单细胞测序数据通常是不完美的，需要对其进行质量控制**
+
+1. 由于测序技术，可能会存在一个孔内包含了2个或以上的细胞，使得基因表达量异常的高，这些双胞需要去除；
+2. 可能包含一些即将死亡的细胞，其表达量异常的低，需要去除
+3. 有些基因在所有细胞中几乎都不表达，需要去除
+
+本研究使用scDblFinder去除双胞，使用`scanpy.calcalate_qc_metrics`方法计算细胞的协变量，然后依据文章中的参数进行过滤 <br>
+
+然后，将3个样本的数据合并到一起，并使用移位对数法进行归一化处理，并将原始counts数据保存在layers中 <br>
+
+中间数据以h5ad格式保存在`_processData`目录中
 
 
 
+```
+# annoDataQC.py
+
+import sys
+import anndata
+import pandas as pd
+import numpy as np
+import scanpy as sc
+import scipy.sparse as sp
+import seaborn as sns
+import scvi
+import scripts
+import scripts.scDblFinder
+from scripts.scDblFinder import run_ScDblFinder
+import matplotlib.pyplot as plt
 
 
+data1 = sc.read_10x_mtx("/share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step1_cellRanger/nodule_large/nodule_large/outs/filtered_feature_bc_matrix", cache=True)
+data2 = sc.read_10x_mtx("/share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step1_cellRanger/nodule_small/nodule_small/outs/filtered_feature_bc_matrix", cache=True)
+data3 = sc.read_10x_mtx("/share/home/yzwl_zhangchao/Project/soybean_sn/01_cellRanger/resultDir/step1_cellRanger/root/root/outs/filtered_feature_bc_matrix", cache=True)
+
+
+def run_plot_scatter(data, x, y, sample, ax):
+    """
+    绘制散点图并设置标题、x轴和y轴的范围。
+    
+    参数：
+    - data: 数据集
+    - x: x轴变量
+    - y: y轴变量
+    - sample: 样本名
+    - ax: 子图对象
+    """
+    sc.pl.scatter(data, x=x, y=y, ax=ax)
+    ax.set_title(sample)
+    ax.set_xlim(0, 50000)
+    ax.set_ylim(0, 16000)
+
+
+datasets = {}
+samples = ["nodule_large", "nodule_small", "root"]
+fig, aex = plt.subplots(ncols=3, nrows=3, figsize=(12, 15))
+for idx, data in enumerate([data1, data2, data3]):
+    filename = f"_processData/data{idx + 1}_filtered.h5ad"
+    datasets[str(data) + "_raw"] = data
+    data.obs["Sample"] = samples[idx]
+    sc.pp.calculate_qc_metrics(data, inplace=True, percent_top=None, log1p=False, )
+    
+    # 绘制原始数据散点图
+    run_plot_scatter(data, 'total_counts', 'n_genes_by_counts', samples[idx], aex[0, idx])
+    
+    # 去除双胞
+    run_ScDblFinder(data, copy=False, doubletRatio=0.1)
+    
+    # 绘制去除双胞后的散点图
+    run_plot_scatter(data, 'total_counts', 'n_genes_by_counts', samples[idx], aex[1, idx])
+    
+    # 基因/细胞过滤
+    sc.pp.filter_genes(data, min_cells=10)
+    sc.pp.filter_cells(data, min_genes=400)
+    sc.pp.filter_cells(data, max_genes=4000)
+    sc.pp.filter_cells(data, min_counts=600)
+    sc.pp.filter_cells(data, max_counts=6000)
+    
+    # 绘制过滤后的散点图
+    run_plot_scatter(data, 'total_counts', 'n_genes_by_counts', samples[idx], aex[2, idx])
+    
+    # 将数据写入文件
+    data.write_h5ad(filename)
+
+# 保存图形
+plt.savefig("figures/scatter.png")
+
+#合并数据并保存
+data_concatenated = data1.concatenate(data2,data3)
+data_concatenated.write_h5ad("_processData/data_concatenated.h5ad")
+
+## data_concatenated = anndata.read_h5ad("/share/home/yzwl_zhangchao/Project/soybean_sn/02_QC/_processData/data_concatenated.h5ad")
+
+data = data_concatenated
+plt.figure(figsize=(12, 12))
+sc.pl.scatter(data_concatenated, x='total_counts', y='n_genes_by_counts')
+plt.savefig("figures/concatenated_scatter.png")
+
+#归一化
+data.layers['counts'] = data.X.copy()
+sc.pp.normalize_total(data,target_sum=1e4,inplace=True)
+data_scaled = data
+sc.pp.log1p(data_scaled)
+data_scaled.write_h5ad("_processData/data_scaled.h5ad")
+
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+sns.histplot(data_concatenated.obs["total_counts"], bins=100,kde=True,ax=axes[0])
+axes[0].set_title("Total counts")
+sns.histplot(data_scaled.X.sum(1), bins=100,kde=True,ax=axes[1])
+axes[1].set_title("Shifted logarithm")
+plt.savefig("figures/hist_counts.png")
+```
+
+figure1 : 细胞的协变量分布图，从上到下依次是原始数据、过滤双胞后、sc.filter过滤之后
+
+![fig32][32]
+
+figure2： 3个样本合并之后的协变量分布图
+
+![fig33][33]
+
+figure3： 归一化前后的UMI分布density
+
+![fig34][34]
 
 
 
@@ -517,9 +636,12 @@ AnnData是python中针对单细胞RNA测序所设计的一种数据格式，具�
 [23]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/dir_fig23.png
 [24]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/rawdata_fig24.png
 [25]: https://github.com/liuzj039/jpy_tools/blob/master/tools/singleCell/parseUmiDirectionFromCellrangerBam.py
-[26]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/cellRanger/web_summary.html
+[26]: https://github.com/Mikotoo/Mikotoo.github.io/blob/main/code/single_cell/cellRanger/web_summary.html
 [27]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/summary_fig27.svg
 [28]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/summary_fig28.svg
 [29]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/blog7_soybean_snRNA/cellRanger_res_fig29.png
 [30]: https://anndata.readthedocs.io/en/latest/
 [31]: https://www.jianshu.com/p/9b057e105c42
+[32]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/sample_scatter.png
+[33]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/concatenated_scatter.png
+[34]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/hist_counts.png
