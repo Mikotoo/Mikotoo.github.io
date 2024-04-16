@@ -747,6 +747,22 @@ plt.savefig("figures/cluster.png")
 
 本文作者选择了0.3分辨率
 
+```
+sc.pp.neighbors(data,n_neighbors=15,use_rep='X_scVI')
+sc.tl.leiden(data, key_added="leiden_res0_3",resolution=0.3)
+sc.tl.umap(data)
+data.obsm["scvi_umap"]=data.obsm["X_umap"]
+
+fig,axes=plt.subplots(2,1,figsize=(8,10))
+plt.subplots_adjust(left=0.05,bottom=0.1,top=0.9,right=0.75,hspace=0.2,wspace=0.25)
+sc.pl.embedding(data,basis='scvi_umap',ax=axes[0],color="Sample")
+sc.pl.embedding(data,basis='scvi_umap',ax=axes[1],color="leiden_res0_3",legend_loc="on data")
+axes[0].set_title("Samples")
+axes[1].set_title("Clusters")
+plt.savefig("figures/final_cluster.png")
+```
+
+![fig37][37]
 
 
 -----------------------------------------------------------------------------------------------------------------------------
@@ -786,3 +802,4 @@ plt.savefig("figures/cluster.png")
 [34]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/hist_counts.png
 [35]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/dimenRedu.png
 [36]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/cluster.png
+[37]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/final_cluster.png
