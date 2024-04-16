@@ -656,7 +656,7 @@ data.write_h5ad("_processData/data_integrated.h5ad")
 
 ### 4.6 降维与聚类
 
-
+##### 降维
 数据降维的方法，推荐t-SNE和UMAP，另外PCA也可以用。 <br>
 
 尝试了以上3种方法，包括对pca的结果用t-SNE和UMAP可视化。 <br>
@@ -706,7 +706,6 @@ sc.pl.embedding(data,basis='scvi_umap',ax=axes[2,0],color="Sample",legend_loc="b
 sc.pl.embedding(data,basis='scvi_pca_umap',ax=axes[2,1],color="Sample")
 plt.savefig("figures/dimenRedu.png")
 
-data.write_h5ad("_processData/data_dimenRedu.h5ad")
 ```
 
 ![fig35][35]
@@ -714,10 +713,39 @@ data.write_h5ad("_processData/data_dimenRedu.h5ad")
 根据结果来看，用**UMAP**对**scvi整合处理**过的**原始counts**进行降维可视化，效果最好。
 
 
+##### 聚类
 
+依据特征基因的表达水平，将相似的细胞聚类到一起，推荐使用scanpy中的Leiden算法
 
+```
+sc.pp.neighbors(data,n_neighbors=15,use_rep='X_scVI')
 
+sc.tl.leiden(data, key_added="leiden_res0_1",resolution=0.1)
+sc.tl.leiden(data, key_added="leiden_res0_2",resolution=0.2)
+sc.tl.leiden(data, key_added="leiden_res0_3",resolution=0.3)
+sc.tl.leiden(data, key_added="leiden_res0_5",resolution=0.5)
+sc.tl.leiden(data, key_added="leiden_res1_0",resolution=1.0)
+sc.tl.leiden(data, key_added="leiden_res2_0",resolution=2.0)
 
+sc.tl.umap(data)
+data.obsm["scvi_umap"]=data.obsm["X_umap"]
+
+fig,axes=plt.subplots(3,2,figsize=(30,25))
+plt.subplots_adjust(left=0.02,bottom=0.1,top=0.9,right=0.9,hspace=0.2,wspace=0.25)
+sc.pl.embedding(data,basis='scvi_umap',ax=axes[0,0],color="leiden_res0_1")
+sc.pl.embedding(data,basis='scvi_umap',ax=axes[0,1],color="leiden_res0_2")
+sc.pl.embedding(data,basis='scvi_umap',ax=axes[1,0],color="leiden_res0_3")
+sc.pl.embedding(data,basis='scvi_umap',ax=axes[1,1],color="leiden_res0_5")
+sc.pl.embedding(data,basis='scvi_umap',ax=axes[2,0],color="leiden_res1_0")
+sc.pl.embedding(data,basis='scvi_umap',ax=axes[2,1],color="leiden_res2_0")
+plt.savefig("figures/cluster.png")
+```
+
+尝试为Leiden设置了不同的分辨率，可以看到，分辨率越高，聚类越精细，cluster越多：
+
+![fig36][36]
+
+本文作者选择了0.3分辨率
 
 
 
@@ -757,3 +785,4 @@ data.write_h5ad("_processData/data_dimenRedu.h5ad")
 [33]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/concatenated_scatter.png
 [34]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/hist_counts.png
 [35]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/dimenRedu.png
+[36]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/cluster.png
