@@ -768,8 +768,92 @@ plt.savefig("figures/final_cluster.png")
 ### 4.7 注释
 
 
+接下来是单细胞分析中最重要的部分————基因注释。 基因注释的准确与否将决定后续所有分析的正确性。 <br>
 
 
+
+#### 4.7.1 基于marker字典的注释
+
+标记基因是从阅读文献中获得的，见文章Supp.Data.5
+
+```
+import sys
+import anndata
+import pandas as pd
+import numpy as np
+import scanpy as sc
+import scipy.sparse as sp
+import scvi
+import scripts
+import matplotlib.pyplot as plt
+
+data_clustered = anndata.read_h5ad("/share/home/yzwl_zhangchao/Project/soybean_sn/02_QC/_processData/data_clusterd.h5ad")
+data=data_clustered
+
+marker_genes = {"Epidermis":["Glyma.08G324300.Wm82.a2.v1",
+                              "Glyma.09G039900.Wm82.a2.v1",
+                              "Glyma.01G224900.Wm82.a2.v1",
+                              "Glyma.16G161100.Wm82.a2.v1"],
+                "Cortex": ["Glyma.09G117900.Wm82.a2.v1",
+                           "Glyma.20G203800.Wm82.a2.v1",
+                           "Glyma.06G182700.Wm82.a2.v1",
+                           "Glyma.19G194300.Wm82.a2.v1"],
+                "Vascular bundle": ["Glyma.07G102500.Wm82.a2.v1",
+                                    "Glyma.03G158700.Wm82.a2.v1",
+                                    "Glyma.17G153300.Wm82.a2.v1",
+                                    "Glyma.15G274600.Wm82.a2.v1",
+                                    "Glyma.10G044800.Wm82.a2.v1"],
+                "Infected zone": ["Glyma.08G012800.Wm82.a2.v1",
+                                  "Glyma.13G024700.Wm82.a2.v1",
+                                  "Glyma.10G198700.Wm82.a2.v1",
+                                  "Glyma.02G098200.Wm82.a2.v1",
+                                  "Glyma.11G203900.Wm82.a2.v1",
+                                  "Glyma.05G088400.Wm82.a2.v1",
+                                  "Glyma.13G300600.Wm82.a2.v1",
+                                  "Glyma.02G004800.Wm82.a2.v1",
+                                  "Glyma.11G057600.Wm82.a2.v1"]}
+
+# check if the markers are in the data
+marker_genes_in_data = dict()
+for ct, markers in marker_genes.items():
+    markers_found = list()
+    for marker in markers:
+        if marker in data.var.index:
+            markers_found.append(marker)
+    marker_genes_in_data[ct] = markers_found
+
+
+sc.tl.dendrogram(data,'leiden_res0_3',use_rep="X_scVI")
+
+print(marker_genes_in_data)
+
+fig, axes=plt.subplots(2,1,figsize=(8,10))
+sc.pl.dotplot(
+    data,
+    ax=axes[0],
+    groupby="leiden_res0_3",
+    var_names=marker_genes_in_data,
+    dendrogram=True,
+    standard_scale="var",  # standard scale: normalize each gene to range from 0 to 1
+)
+axes[1].axis("off")
+
+plt.savefig("figures/annogenes_dot.png")
+```
+
+![fig38][38]
+
+根据上图的结果，可以判断cluster 0 为Epidermis， cluster 4， cluster 8 为Cortex， cluster 11 为Vascular bundle，cluster 12 为Infected zone。 <br> 
+
+手动将其添加到anndata中：
+
+```
+
+```
+
+#### 4.7.2 基于cluster特异基因的注释
+
+#### 4.7.3
 
 
 
@@ -829,3 +913,4 @@ plt.savefig("figures/final_cluster.png")
 [35]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/dimenRedu.png
 [36]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/cluster.png
 [37]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/final_cluster.png
+[38]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/annogenes_dot.png
