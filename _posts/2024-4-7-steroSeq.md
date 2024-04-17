@@ -848,10 +848,42 @@ plt.savefig("figures/annogenes_dot.png")
 手动将其添加到anndata中：
 
 ```
+cluster2annotation = {
+    '0': 'Epidermis',
+    '4': 'Cortex',
+    '8': 'Cortex',
+    '11': 'Vascular',
+    '12': 'Infected zone',
+}
 
+data.obs['major_celltype'] = data.obs['leiden_res0_3'].map(cluster2annotation).astype('category')
+
+fig, axes=plt.subplots(2,1,figsize=(8,10))
+plt.subplots_adjust(left=0.1,bottom=0.1,top=0.9,right=0.8,hspace=0.2,wspace=0.25)
+sc.pl.embedding(data,
+                basis='scvi_umap',
+                color='leiden_res0_3',
+                title='clusters',
+                ax=axes[0]
+                )
+sc.pl.embedding(data,
+                basis='scvi_umap',
+                color='major_celltype',
+                title='cell types',
+                ax=axes[1],
+                palette='Set1',
+                legend_loc="on data")
+plt.savefig("figures/annotation1.png")
 ```
 
+![fig38][38]
+
 #### 4.7.2 基于cluster特异基因的注释
+
+更多的细胞是没有已知marker基因的，特别是在植物中。 <br>
+一种方法是计算每个cluster的特异表达基因，然后将这些基因和已知的生物学功能联系起来，进行注释。
+
+
 
 #### 4.7.3
 
