@@ -883,6 +883,95 @@ plt.savefig("figures/annotation1.png")
 更多的细胞是没有已知marker基因的，特别是在植物中。 <br>
 一种方法是计算每个cluster的特异表达基因，然后将这些基因和已知的生物学功能联系起来，进行注释。
 
+```
+import sys
+import anndata
+import pandas as pd
+import numpy as np
+import scanpy as sc
+import scipy.sparse as sp
+import seaborn as sns
+import scvi
+import scripts
+import matplotlib.pyplot as plt
+
+def get_upregulated_genes(adata):
+    top10_upregulated_genes = pd.DataFrame()
+    for i in range(18):
+        degs = sc.get.rank_genes_groups_df(data,group=str(i), key='dea_leiden_res0_3_filtered')
+        degs=degs.dropna()
+        upregulated_genes_cluster_i = degs[degs['logfoldchanges'] > 0]
+        upregulated_genes_cluster_i = upregulated_genes_cluster_i.sort_values(by='pvals_adj', ascending=True)
+        top10_upregulated_genes_cluster_i = upregulated_genes_cluster_i.head(10)
+        top10_upregulated_genes_cluster_i["cluster"] = str(i)
+        top10_upregulated_genes = pd.concat([top10_upregulated_genes, top10_upregulated_genes_cluster_i[['cluster','names', 'logfoldchanges', 'pvals_adj']]], ignore_index=True)
+    top10_upregulated_genes.to_csv('_processData/top10_upregulated_genes.csv', index=False)
+
+def plot_cluster_cell_proportions(adata):
+    clusters = adata.obs["leiden_res0_3"]
+    samples = adata.obs['Sample']
+    cluster_sample_counts=pd.crosstab(clusters,samples)
+    df = cluster_sample_counts.div(cluster_sample_counts.sum(axis=1), axis=0)
+    df = df.reset_index()
+
+    sample_colors = {
+        'nodule_large': 'blue',
+        'nodule_small': 'green',
+        'root': 'red'
+    }
+
+    plt.figure(figsize=(15, 6))
+    for i, col in enumerate(df.columns[1:]):
+        plt.bar(df['leiden_res0_3'], df[col], label=col, color=sample_colors[col], bottom=df.iloc[:, 1:i+1].sum(axis=1))
+    legend_labels = [plt.Line2D([0], [0], color=sample_colors[label], lw=4, label=label) for label in sample_colors.keys()]
+    plt.legend(handles=legend_labels, loc='upper left', bbox_to_anchor=(1, 1))
+    plt.title('Cell Proportions in Each Cluster Across Samples')
+    plt.xlabel('Cluster')
+
+data_clustered = anndata.read_h5ad("/share/home/yzwl_zhangchao/Project/soybean_sn/02_QC/_processData/data_clusterd.h5ad")
+data=data_clustered
+
+sc.tl.rank_genes_groups(
+    data, groupby="leiden_res0_3", use_raw=False,
+    method="wilcoxon", key_added="dea_leiden_res0_3"
+)
+
+## 过滤特异性更强的基因
+sc.tl.filter_rank_genes_groups(
+    data,
+    min_in_group_fraction=0.1,
+    max_out_group_fraction=0.2,
+    key="dea_leiden_res0_3",
+    key_added="dea_leiden_res0_3_filtered",
+)
+
+sc.tl.dendrogram(data,'leiden_res0_3',use_rep="X_scVI")
+
+sc.pl.rank_genes_groups_dotplot(
+    data, groupby="leiden_res0_3", dendrogram=True,
+    standard_scale="var", n_genes=3, key="dea_leiden_res0_3_filtered",
+    save="rank2.png"
+)
+
+get_upregulated_genes(data)
+plot_cluster_cell_proportions(data)
+
+plt.savefig("figures/cluster_in_sample.png")
+```
+
+没有过滤的高表达基因
+![fig40][40]
+
+过滤的cluster特异高表达基因
+![fig41][41]
+
+绘制了每个cluster种特异高表达基因的dotplot, 可以看到许多基因在特定的cluster中特异表达。
+
+提取了每个cluster中特异高表达的10个基因，在数据库中搜索基因的功能<br>
+
+再结合每个cluster在3个样本中的占比，对cluster进行注释
+
+![fig42][42]
 
 
 #### 4.7.3
@@ -947,3 +1036,6 @@ plt.savefig("figures/annotation1.png")
 [37]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/final_cluster.png
 [38]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/annogenes_dot.png
 [39]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/annotation1.png
+[40]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/dotplot_rank1.png
+[41]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/dotplot_rank2.png
+[42]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/cluster_in_sample.png
