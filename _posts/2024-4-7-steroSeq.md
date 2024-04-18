@@ -876,7 +876,7 @@ sc.pl.embedding(data,
 plt.savefig("figures/annotation1.png")
 ```
 
-![fig38][38]
+![fig39][39]
 
 #### 4.7.2 基于cluster特异基因的注释
 
@@ -946,3 +946,4 @@ plt.savefig("figures/annotation1.png")
 [36]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/cluster.png
 [37]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/final_cluster.png
 [38]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/annogenes_dot.png
+[39]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/code/single_cell/02_QC/figures/annotation1.png
