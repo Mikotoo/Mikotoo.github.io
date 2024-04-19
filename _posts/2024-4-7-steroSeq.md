@@ -548,7 +548,6 @@ for idx, data in enumerate([data1, data2, data3]):
     run_plot_scatter(data, 'total_counts', 'n_genes_by_counts', samples[idx], aex[1, idx])
     
     # 基因/细胞过滤
-    sc.pp.filter_genes(data, min_cells=10)
     sc.pp.filter_cells(data, min_genes=400)
     sc.pp.filter_cells(data, max_genes=4000)
     sc.pp.filter_cells(data, min_counts=600)
@@ -566,6 +565,8 @@ plt.savefig("figures/scatter.png")
 #合并数据并保存
 data_concatenated = data1.concatenate(data2,data3)
 data_concatenated.write_h5ad("_processData/data_concatenated.h5ad")
+
+sc.pp.filter_genes(data_concatenated, min_cells=10)
 
 ## data_concatenated = anndata.read_h5ad("/share/home/yzwl_zhangchao/Project/soybean_sn/02_QC/_processData/data_concatenated.h5ad")
 
@@ -973,8 +974,18 @@ plt.savefig("figures/cluster_in_sample.png")
 
 ![fig42][42]
 
+<p>比如，cluster 0 中特异高表达的基因中有多个LRR受体基因，还有一些鉴定为和根特异基因共表达的基因，再结合它在三个组织中都存在且比例相近，推断它属于表皮细胞，和4.7.1 marker基因注释的结果一致；</p>
 
-#### 4.7.3
+<p>
+再比如，cluster 1，上一步的marker注释没能把它注释出来。搜索了前10个特异表达基因的功能，发现其中既有LRR受体，也有多个AUXIN EFFLUX CARRIER基因，搜索这个基因，发现它主要编码膜蛋白的生长素流出载体，在拟南芥中主要位于侧根的皮层细胞中。<br>
+
+再结合cluster 1主要分布在根瘤组织中，推测它应该是根瘤的皮层细胞。<br>
+
+而cluster 2， 只能判断出这是成熟根瘤中特异的细胞类型。通过结合空转注释，也许可以做出更明确的判断。
+
+</p>
+
+#### 4.7.3 scANVI利用其他物种注释结果进行注释转移
 
 
 
