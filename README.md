@@ -100,7 +100,7 @@ docs/                    维护记录与预览资料
 
 - `preview` 分支：Actions 构建与测试，上传预览产物。
 - `main` 分支：Actions 构建与测试，成功后发布 GitHub Pages。
-- CI 只需本仓库内容、配置、静态资源与快照，不需要 Lotus_genome/Rscript 同级目录。
+- CI 只需本仓库内容、配置、静态资源与快照，不需要 Lotus_genome 等同级目录。
 - 站内链接检查默认严格，缺文件返回非零退出码，阻止部署。检查 HTML 的 href/src 文件目标，包括相对路径；不检查外部网站可用性、锚点 ID 或 JavaScript 动态请求。
 - Starlight 的 `404.html` canonical `/404/` 元数据单独豁免，实际指向 `/404/` 的导航链接仍会报错。
 

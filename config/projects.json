@@ -13,20 +13,6 @@
       "eyebrow": "PLANT GENOMICS",
       "featured": true,
       "tags": ["基因组组装", "注释", "比较基因组", "转录组"]
-    },
-    {
-      "key": "rscript",
-      "landing": "projects/rscript",
-      "order": 20,
-      "title": "多组学分析与论文图表",
-      "dir": "Rscript",
-      "repo": "Rscript",
-      "href": "https://github.com/Mikotoo/Rscript",
-      "showRepository": false,
-      "summary": "从结构变异、同源基因到 bulk 与单核 RNA-seq，串联多组学数据分析和论文图表所用的分析脚本。",
-      "eyebrow": "MULTI-OMICS & CODE",
-      "featured": true,
-      "tags": ["结构变异", "同源基因", "bulk RNA-seq", "单细胞"]
     }
   ]
 }

@@ -6,13 +6,6 @@
       "pages": 53,
       "rootSlug": "_projects/lotus",
       "sourceSha256": "b3a2c8d447612676f02c5fc74fcda8fda26806ce485650a5971405014ecf0e58"
-    },
-    {
-      "key": "rscript",
-      "label": "论文分析脚本（Rscript）",
-      "pages": 3,
-      "rootSlug": "_projects/rscript",
-      "sourceSha256": "f7bab4e526b657c6d94da60dd87d2101298882b94e5c1dc7b87c4493e530968a"
     }
   ]
 }

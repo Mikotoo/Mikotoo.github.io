@@ -54,13 +54,5 @@
     "scripts/07_transcriptome/07_coexpression_network": "共表达网络",
     "scripts/07_transcriptome/08_module_consistency": "模块一致性",
     "scripts/08_single_nucleus/Script": "单核分析脚本"
-  },
-  "rscript": {
-    "Bulk-RNAseq analysis": "Bulk RNA-seq 分析",
-    "Homologous genes": "同源基因",
-    "New genes finder": "新基因识别",
-    "Singlecell-RNAseq analysis": "单核 RNA-seq 分析",
-    "Singlecell-RNAseq analysis/Script": "单核分析脚本明细",
-    "Structural variation": "结构变异"
   }
 }
