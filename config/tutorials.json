@@ -1,7 +1,6 @@
 {
   "title": "生物信息学基础",
   "sourceDir": "../生物信息学教程",
-  "dataDir": "02_visualization_simple sample/lotus_circos_data",
   "lessons": [
     {
       "slug": "01-linux-genome",
@@ -18,7 +17,43 @@
       "description": "把上一节的统计结果转化为柱状图、箱线图、热图与散点图，并使用 Lotus 示例数据练习基因组圈图。",
       "topics": ["Python", "R", "数据可视化", "circlize"],
       "source": "02_visualization_simple sample/02_visualization_python_R.md",
-      "hasPracticeData": true
+      "practice": {
+        "dir": "02_visualization_simple sample/lotus_circos_data",
+        "assetName": "lotus_circos_data",
+        "archive": "lotus-circos-data.zip",
+        "archiveRoot": "lotus_circos_data",
+        "label": "Lotus 圈图数据包（ZIP）",
+        "summary": "解压后得到 `lotus_circos_data/` 文件夹，放在本节工作目录中即可。基础绘图仍使用第一节大豆数据生成的统计表；这个数据包用于后面的 `circlize` 进阶练习。"
+      }
+    },
+    {
+      "slug": "03-rnaseq-alignment",
+      "order": 3,
+      "title": "第 3 节：RNA-seq 与序列比对",
+      "description": "先动手跑通「FASTQ → 比对 → BAM → 定量」，再对照自己生成的 SAM/BAM 逐个字段读懂输出，最后理解序列比对与剪接比对的原理。",
+      "topics": ["RNA-seq", "samtools", "SAM/BAM", "序列比对"],
+      "source": "03_rnaseq_alignment/03_rnaseq_alignment_practice.md",
+      "practice": {
+        "dir": "03_rnaseq_alignment/rnaseq_demo_data",
+        "assetName": "rnaseq_demo_data",
+        "archive": "rnaseq-demo-data.zip",
+        "archiveRoot": "rnaseq_demo_data",
+        "label": "RNA-seq 教学演示数据（ZIP）",
+        "summary": "解压后得到 `rnaseq_demo_data/`。其中 `demo_reads_R1/R2.fastq.gz` 由脚本从 `demo_genome.fa` 与 `demo_annotation.gtf` 离线生成，**是教学模拟数据**，只用于跑通命令与解读 SAM/BAM 字段。",
+        "generateReads": true,
+        "reads": {
+          "pairsPerGene": 60,
+          "junctionPairsPerSite": 2,
+          "repeatPairs": 30,
+          "noisePairs": 10,
+          "readLength": 50,
+          "minFragment": 150,
+          "maxFragment": 400,
+          "repeatRegion": { "chrom": "demo_chr1", "start": 3001, "end": 3350 },
+          "qualityMin": 30,
+          "qualityMax": 40
+        }
+      }
     }
   ]
 }

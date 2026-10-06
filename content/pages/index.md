@@ -28,7 +28,7 @@ hero:
 </div>
 
 <div class="profile-strip">
-  <div><p class="eyebrow">BIOINFORMATICS · START HERE</p><h2>从第一条命令，走到第一张数据图</h2><p>生物信息学基础教程：学习 Linux 与参考基因组文件，再用 Python 和 R 完成统计图与圈图练习。</p></div>
+  <div><p class="eyebrow">BIOINFORMATICS · START HERE</p><h2>从第一条命令，走到基因表达量</h2><p>生物信息学基础教程：读懂参考基因组与 Linux 命令，用 Python 和 R 画出统计图，再动手把 RNA-seq 读长比对回基因组，一路做到表达量。</p></div>
   <a class="text-link" href="/tutorials/">开始学习基础教程 →</a>
 </div>
 

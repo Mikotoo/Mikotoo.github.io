@@ -11,7 +11,7 @@ tableOfContents:
   maxHeadingLevel: 2
 ---
 
-[← 课程目录](/tutorials/) · 第 1 节 / 共 2 节 · [下载本节原始讲义（Markdown）](/tutorials/bioinformatics/01-linux-genome.md)
+[← 课程目录](/tutorials/) · 第 1 节 / 共 3 节 · [下载本节原始讲义（Markdown）](/tutorials/bioinformatics/01-linux-genome.md)
 
 ## 一、章节导入
 

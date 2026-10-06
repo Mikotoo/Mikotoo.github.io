@@ -5,18 +5,18 @@ sidebar:
   label: "第 2 节：Python 与 R 数据可视化"
   order: 2
 prev: {"label":"第 1 节：Linux 与参考基因组","link":"/tutorials/01-linux-genome/"}
-next: false
+next: {"label":"第 3 节：RNA-seq 与序列比对","link":"/tutorials/03-rnaseq-alignment/"}
 tableOfContents:
   minHeadingLevel: 2
   maxHeadingLevel: 2
 ---
 
-[← 课程目录](/tutorials/) · 第 2 节 / 共 2 节 · [下载本节原始讲义（Markdown）](/tutorials/bioinformatics/02-python-r-visualization.md)
+[← 课程目录](/tutorials/) · 第 2 节 / 共 3 节 · [下载本节原始讲义（Markdown）](/tutorials/bioinformatics/02-python-r-visualization.md)
 
-> **练习数据**：[下载 Lotus 圈图数据包（ZIP）](/tutorials/bioinformatics/lotus-circos-data.zip)。解压后得到 `lotus_circos_data/` 文件夹，放在本节工作目录中即可。基础绘图仍使用第一节大豆数据生成的统计表；这个数据包用于后面的 `circlize` 进阶练习。
+> **练习数据**：[下载Lotus 圈图数据包（ZIP）](/tutorials/bioinformatics/lotus-circos-data.zip)。解压后得到 `lotus_circos_data/` 文件夹，放在本节工作目录中即可。基础绘图仍使用第一节大豆数据生成的统计表；这个数据包用于后面的 `circlize` 进阶练习。
 
 <details>
-<summary>单独查看或下载圈图数据文件</summary>
+<summary>单独查看或下载数据文件</summary>
 
 - [Cent.txt](/tutorials/bioinformatics/lotus_circos_data/Cent.txt)
 - [Chr_length.txt](/tutorials/bioinformatics/lotus_circos_data/Chr_length.txt)

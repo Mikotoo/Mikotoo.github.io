@@ -1,0 +1,20 @@
+#!genome-build teaching-demo
+#!genome-version demo_v1
+#
+demo_chr1	teaching_demo	gene	101	1000	.	+	.	gene_id "demo_gene1"; gene_name "demo_gene1";
+demo_chr1	teaching_demo	transcript	101	1000	.	+	.	gene_id "demo_gene1"; transcript_id "demo_gene1.1";
+demo_chr1	teaching_demo	exon	101	400	.	+	.	gene_id "demo_gene1"; transcript_id "demo_gene1.1"; exon_number "1";
+demo_chr1	teaching_demo	exon	701	1000	.	+	.	gene_id "demo_gene1"; transcript_id "demo_gene1.1"; exon_number "2";
+demo_chr1	teaching_demo	gene	1501	2400	.	-	.	gene_id "demo_gene2"; gene_name "demo_gene2";
+demo_chr1	teaching_demo	transcript	1501	2400	.	-	.	gene_id "demo_gene2"; transcript_id "demo_gene2.1";
+demo_chr1	teaching_demo	exon	1501	1800	.	-	.	gene_id "demo_gene2"; transcript_id "demo_gene2.1"; exon_number "2";
+demo_chr1	teaching_demo	exon	2101	2400	.	-	.	gene_id "demo_gene2"; transcript_id "demo_gene2.1"; exon_number "1";
+demo_chr2	teaching_demo	gene	101	1150	.	+	.	gene_id "demo_gene3"; gene_name "demo_gene3";
+demo_chr2	teaching_demo	transcript	101	1150	.	+	.	gene_id "demo_gene3"; transcript_id "demo_gene3.1";
+demo_chr2	teaching_demo	exon	101	350	.	+	.	gene_id "demo_gene3"; transcript_id "demo_gene3.1"; exon_number "1";
+demo_chr2	teaching_demo	exon	501	750	.	+	.	gene_id "demo_gene3"; transcript_id "demo_gene3.1"; exon_number "2";
+demo_chr2	teaching_demo	exon	901	1150	.	+	.	gene_id "demo_gene3"; transcript_id "demo_gene3.1"; exon_number "3";
+demo_chr2	teaching_demo	gene	1201	1600	.	-	.	gene_id "demo_gene4"; gene_name "demo_gene4";
+demo_chr2	teaching_demo	transcript	1201	1600	.	-	.	gene_id "demo_gene4"; transcript_id "demo_gene4.1";
+demo_chr2	teaching_demo	exon	1201	1375	.	-	.	gene_id "demo_gene4"; transcript_id "demo_gene4.1"; exon_number "2";
+demo_chr2	teaching_demo	exon	1451	1600	.	-	.	gene_id "demo_gene4"; transcript_id "demo_gene4.1"; exon_number "1";
