@@ -212,16 +212,50 @@ async function main() {
     .sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
   const orphan = (generated.projects ?? []).filter((g) => !projects.some((p) => p.key === g.key));
 
+  // 只有站点上真的存在文档目录时才给出站内链接，否则会指向 404
+  // （CI 上拿不到同级仓库，靠上一次生成的文档快照兜底；快照也没有则退化为仓库链接）
+  const docSlug = (key) => `${PROJECTS_DIR}/${key}`;
+  const withDocs = [];
+  for (const p of projects) {
+    if (existsSync(path.join(DOCS, PROJECTS_DIR, p.key))) withDocs.push(p);
+  }
+  const withoutDocs = projects.filter((p) => !withDocs.includes(p));
+  // 排查用：DEBUG_INDEX=1 时打印项目文档的解析结果
+  if (process.env.DEBUG_INDEX) {
+    console.info(
+      `[index][debug] 清单=${projects.map((p) => p.key).join(',') || '（无）'}` +
+        ` | 生成记录=${(generated.projects ?? []).map((p) => `${p.key}:${p.from}`).join(',') || '（无）'}` +
+        ` | 有文档=${withDocs.map((p) => p.key).join(',') || '（无）'}`
+    );
+  }
+
   /* ---------------- 项目文档总览页 ---------------- */
   const card = (p) =>
-    `  <a href="/${PROJECTS_DIR}/${p.key}/">\n` +    `    <strong>${p.label ?? p.key}</strong>\n` +
+    `  <a href="/${docSlug(p.key)}/">\n` +
+    `    <strong>${p.label ?? p.key}</strong>\n` +
     `    <span>${p.summary ?? ''}</span>\n` +
     `  </a>`;
-  const cards = projects.length ? projects.map(card).join('\n') : '  <p>暂无项目文档。</p>';
-  const chips = projects
-    .filter((p) => p.tags?.length)
-    .map((p) => `| ${p.label ?? p.key} | ${p.tags.join(' · ')} | [\`${p.repo ?? p.key}\`](${p.href ?? '#'}) |`)
+  const fallbackCards = (p) =>
+    `  <a href="${p.href ?? '#'}">\n` +
+    `    <strong>${p.label ?? p.key}</strong>\n` +
+    `    <span>${p.summary ?? ''}（文档在本地构建时生成，见下方说明）</span>\n` +
+    `  </a>`;
+
+  const cards = withDocs.length
+    ? withDocs.map(card).join('\n')
+    : '  <p>当前构建未包含项目文档。</p>';
+
+  const tableRow = (p) =>
+    `| ${p.label ?? p.key} | ${(p.tags ?? []).join(' · ') || '—'} | [\`${p.repo ?? p.key}\`](${p.href ?? '#'}) |`;
+  const chips = withDocs
+    .map(tableRow)
     .join('\n');
+
+  const repoOnlyRobots = withoutDocs.length
+    ? `\n## 未随本次构建发布的文档\n\n下列项目已登记，但本次构建没有拿到对应的本地仓库，因此站点上没有它们的文档页（可先看代码仓库）：\n\n| 项目 | 关键词 | 代码仓库 |\n| --- | --- | --- |\n${withoutDocs
+        .map(tableRow)
+        .join('\n')}\n`
+    : '';
 
   const projectsMd = `---
 title: 项目文档
@@ -232,9 +266,11 @@ description: 已收录的项目仓库与其分析流程文档
 ${cards}
 </div>
 
+> 每份项目文档都直接从对应代码仓库的 \`README.md\` 生成——仓库里改一句，站点跟着变，不会出现两份说法。
+
 ## 收录约定
 
-本站的项目文档**不在站点里手写**：构建时自动抓取项目仓库里的所有 \`README.md\`，按目录结构生成带导航和检索的文档区。收录一个项目有两种方式：
+项目文档**不在站点里手写**：构建时抓取项目仓库里的所有 \`README.md\`，按目录结构生成带导航和检索的文档区。收录一个项目有两种方式：
 
 | 方式 | 做法 | 适用场景 |
 | --- | --- | --- |
@@ -246,10 +282,11 @@ ${cards}
 1. 仓库根目录有 \`README.md\`（每个步骤目录也建议一份，讲清做法、输入、参数）；
 2. 仓库放在本站**同级目录**（本地开发）或 \`vendor/\` 下（想作为 submodule 收进站点仓库）。
 
-找不到本地仓库时会被跳过并给出提示，不影响其它内容构建。
+构建时找不到本地仓库的话，会沿用上一次生成的文档快照（若仓库不存在，则该项目只显示上方表格里的仓库链接）。
 
-${chips ? `## 一览\n\n| 项目 | 关键词 | 代码仓库 |\n| --- | --- | --- |\n${chips}\n` : ''}
-${orphan.length ? `\n## 已同步但未登记\n\n以下项目已生成文档，但还没写进 \`src/data/projects.json\`（因此不会出现在首页卡片里）：\n\n${orphan.map((o) => `- \`${o.key}\`（${o.pages} 页）`).join('\n')}\n` : ''}
+${chips ? `## 本次构建已发布的项目\n\n| 项目 | 关键词 | 代码仓库 |\n| --- | --- | --- |\n${chips}\n` : ''}
+${repoOnlyRobots}
+${orphan.length ? `\n## 已同步但未登记\n\n以下项目已生成文档，但还没写进 \`src/data/projects.json\`（因此不会出现在卡片与侧边栏）：\n\n${orphan.map((o) => `- \`${o.key}\`（${o.pages ?? '?'} 页）`).join('\n')}\n` : ''}
 `;
 
   await writeFile(path.join(DOCS, 'projects.md'), projectsMd, 'utf8');
@@ -259,7 +296,8 @@ ${orphan.length ? `\n## 已同步但未登记\n\n以下项目已生成文档，�
   const groups = { notes: [], other: [] };
   for (const rel of files) {
     const slug = rel.replace(/\.md$/, '');
-    if (['index-all', 'code', 'projects'].includes(slug)) continue;
+    // 跳过生成页自身，避免「内容索引」里出现指向自己的重复项
+    if (['index', 'index-all', 'code', 'projects'].includes(slug)) continue;
     const { title, date } = await readFrontmatter(path.join(DOCS, rel));
     const item = { slug, title, date };
     if (slug.startsWith('notes/')) groups.notes.push(item);
@@ -267,8 +305,7 @@ ${orphan.length ? `\n## 已同步但未登记\n\n以下项目已生成文档，�
   }
   const notesSorted = groups.notes.sort((a, b) => String(b.date).localeCompare(String(a.date)));
 
-  const fmt = (item) => `| [${item.title.replace(/\|/g, '\\|')}](/${item.slug}/) | \`${item.slug}\` |${item.date ? ` ${item.date} |` : ' — |'}`;
-  const table = (items) => [`| 页面 | 路径 | 日期 |`, '| --- | --- | --- |', ...items.map(fmt)].join('\n');
+  const fmt = (item) => `| [${item.title.replace(/\|/g, '\\|')}](/${item.slug}/) | \`/${item.slug}/\` |${item.date ? ` ${item.date} |` : ' — |'}`;  const table = (items) => [`| 页面 | 路径 | 日期 |`, '| --- | --- | --- |', ...items.map(fmt)].join('\n');
 
   const projectSections = [];
   for (const p of projects) {
@@ -305,7 +342,7 @@ ${table(groups.other)}
 
   /* ---------------- 侧边栏 ---------------- */
   const projectItems = [];
-  for (const p of projects) {
+  for (const p of withDocs) {
     const pages = await listProjectPages(p.key);
     if (!pages.length) continue;
     const tree = buildSidebarTree(pages);

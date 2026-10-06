@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "private": true,
   "packageManager": "pnpm@11.22.0",
-  "description": "Mikotoo 的技术笔记与分析流程文档站（Astro + Starlight）",
+  "description": "个人文档与代码站：项目分析流程、论文复现与笔记（Astro + Starlight）",
   "scripts": {
     "sync": "node scripts/sync-docs.mjs",
     "notes": "node scripts/migrate-posts.mjs",
@@ -17,8 +17,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "links": "node scripts/check-links.mjs",
     "size": "node scripts/check-size.mjs",
-    "postbuild": "node scripts/prune-dist.mjs && node scripts/check-size.mjs"
+    "postbuild": "node scripts/prune-dist.mjs && node scripts/check-size.mjs && node scripts/check-links.mjs"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.42.5",

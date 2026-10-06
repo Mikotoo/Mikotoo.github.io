@@ -18,6 +18,8 @@ export default defineConfig({
         root: { label: '简体中文', lang: 'zh-CN' },
       },
       social: [{ icon: 'github', label: 'GitHub', href: site.github }],
+      // 站点图标放在 public/ 下，随构建原样复制
+      favicon: '/favicon.ico',
       customCss: ['./src/styles/custom.css'],
       credits: false,
       lastUpdated: false,

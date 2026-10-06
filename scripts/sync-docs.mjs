@@ -14,8 +14,8 @@
  *   /_projects/<key>/<子目录>/            子目录 README 自动成页（保留层级）
  * 站点对外入口是 /projects/（见 src/content/docs/projects.md）。
  */
-import { readFile, writeFile, mkdir, rm, readdir, stat, lstat } from 'node:fs/promises';
-import { existsSync, statSync } from 'node:fs';
+import { readFile, writeFile, mkdir, rm, readdir, stat, lstat, cp } from 'node:fs/promises';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -287,6 +287,17 @@ async function readJsonFile(file, fallback) {
   }
 }
 
+/** 从快照里的项目首页取 sidebar.label，作为沿用快照时的导航标题 */
+function projectLabelFromSnapshot(rootPageFile) {
+  try {
+    if (!existsSync(rootPageFile)) return null;
+    const text = statSync(rootPageFile) && readFileSync(rootPageFile, 'utf8');
+    return text.match(/^\s*label:\s*'?([^'\n]+)'?\s*$/m)?.[1]?.trim() ?? null;
+  } catch {
+    return null;
+  }
+}
+
 /* -------------------------------------------------------------- markdown */
 
 function resolveTarget(currentRelPath, target) {
@@ -546,31 +557,91 @@ async function syncProject(project) {
 async function main() {
   await mkdir(DOCS_ROOT, { recursive: true });
 
+  // 上一轮生成的清单：决定「快照兜底」时要还原哪几个项目。
+  // 不能只看本轮 discoverProjects 的结果——CI 上没有同级仓库，那个列表是空的。
+  const prevManifest = await readJsonFile(path.join(SITE_ROOT, 'src', 'data', 'projects.generated.json'), {
+    projects: [],
+  });
+  const prevKeys = (prevManifest.projects ?? []).map((p) => p.key).filter(Boolean);
+
   const projects = await discoverProjects();
   if (!projects.length) {
-    console.warn(
-      '[sync] 没有发现任何项目仓库；项目文档区将为空白。\n' +
-        '        本地开发时请把仓库放在本站同级目录（或 vendor/），并在 src/data/projects.json 登记。'
+    console.info(
+      '[sync] 没有发现项目仓库（CI 上属正常：同级目录不存在）。\n' +
+        '        将沿用上一次生成的文档快照，保证线上项目文档仍然可用。'
     );
   }
-  for (const s of stats.skipped) console.warn(`[sync] 跳过未找到的项目：${s}`);
+  for (const s of stats.skipped) console.info(`[sync] 未找到本地仓库，沿用快照：${s}`);
 
-  // 清掉上一次生成的项目目录（仓库可能已被删除或改名）
   const outRoot = path.join(DOCS_ROOT, PROJECTS_DIR);
-  if (existsSync(outRoot)) await rm(outRoot, { recursive: true, force: true });
-
-  for (const project of projects) {
-    await syncProject(project);
+  // 上一次生成的结果先备份：本地拿不到仓库时（例如 CI）用它兜底，
+  // 这样线上项目文档不会因为「没有同级仓库」而整体消失。
+  const backupRoot = `${outRoot}.bak`;
+  if (existsSync(backupRoot)) await rm(backupRoot, { recursive: true, force: true });
+  const baselineKeys = existsSync(outRoot)
+    ? (await readdir(outRoot, { withFileTypes: true })).filter((e) => e.isDirectory()).map((e) => e.name)
+    : [];
+  if (existsSync(outRoot)) {
+    await cp(outRoot, backupRoot, { recursive: true });
+    await rm(outRoot, { recursive: true, force: true });
   }
+
+  const syncedKeys = new Set();
+  for (const project of projects) {
+    if (await syncProject(project)) syncedKeys.add(project.key);
+  }
+
+  // 本轮没能从仓库生成的项目：从快照补齐。
+  // 注意每个项目在站点上对应两部分：`_projects/<key>/`（子目录页）与 `_projects/<key>.md`（首页），
+  // 两者都要补，且只补缺失的项目——「先整体还原再删」会把本轮刚生成的内容覆盖掉。
+  const cachedKeys = new Set();
+  const restoreCandidates = [...new Set([...prevKeys, ...baselineKeys])];
+  for (const key of restoreCandidates) {
+    if (syncedKeys.has(key)) continue;
+    const backupDir = path.join(backupRoot, key);
+    const backupRootPage = path.join(backupRoot, `${key}.md`);
+    if (!existsSync(backupDir) && !existsSync(backupRootPage)) continue;
+
+    if (existsSync(backupDir)) {
+      const dest = path.join(outRoot, key);
+      if (existsSync(dest)) await rm(dest, { recursive: true, force: true });
+      await cp(backupDir, dest, { recursive: true });
+    }
+    if (existsSync(backupRootPage) && !existsSync(path.join(outRoot, `${key}.md`))) {
+      await mkdir(outRoot, { recursive: true });
+      await cp(backupRootPage, path.join(outRoot, `${key}.md`));
+    }
+
+    cachedKeys.add(key);
+    const known = (prevManifest.projects ?? []).find((p) => p.key === key);
+    stats.projects.push({
+      key,
+      label: known?.label ?? projectLabelFromSnapshot(backupRootPage) ?? key,
+      pages: known?.pages ?? null,
+      rootSlug: `${PROJECTS_DIR}/${key}`,
+    });
+    console.info(`[sync] ${key}: 沿用上一次生成的文档快照`);
+  }
+
+  if (existsSync(backupRoot)) await rm(backupRoot, { recursive: true, force: true });
 
   const manifest = {
     generatedAt: new Date().toISOString(),
-    projects: stats.projects.map((p) => ({
-      key: p.key,
-      label: p.label,
-      pages: p.pages,
-      rootSlug: p.rootSlug,
-    })),
+    /** 本轮真正从仓库重新生成的 key */
+    synced: [...syncedKeys],
+    /** 沿用快照的 key */
+    cached: [...cachedKeys],
+    /** 站点上实际存在文档目录的 key → 这些链接是有效的 */
+    available: [...syncedKeys, ...cachedKeys],
+    projects: stats.projects
+      .map((p) => ({
+        key: p.key,
+        label: p.label,
+        pages: p.pages,
+        rootSlug: p.rootSlug,
+        from: syncedKeys.has(p.key) ? 'repo' : 'snapshot',
+      }))
+      .sort((a, b) => a.key.localeCompare(b.key)),
   };
   await writeFile(path.join(SITE_ROOT, 'src', 'data', 'projects.generated.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
 
@@ -578,7 +649,9 @@ async function main() {
     console.log(`[sync] 提示：${stats.notes.length} 个链接越出仓库、已保留原文，示例：`);
     stats.notes.slice(0, 5).forEach((s) => console.log(`   - ${s}`));
   }
-  console.log(`[sync] 完成：${stats.projects.length} 个项目、${stats.pages} 个页面，改写 ${stats.linked} 个链接`);
+  const parts = [`${syncedKeys.size} 个仓库重新生成`];
+  if (cachedKeys.size) parts.push(`${cachedKeys.size} 个沿用快照`);
+  console.log(`[sync] 完成：${stats.projects.length} 个项目（${parts.join('、')}）、共 ${stats.pages} 页，改写 ${stats.linked} 个链接`);
 }
 
 void lstat;
