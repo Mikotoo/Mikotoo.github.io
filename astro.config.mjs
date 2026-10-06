@@ -1,35 +1,29 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import { notesSidebar } from './src/sidebar.generated.mjs';
+import { site } from './src/site.config.mjs';
+import { projectsSidebar, notesSidebar } from './src/sidebar.generated.mjs';
 
-// 用户站点仓库（Mikotoo.github.io）→站点根路径为 https://mikotoo.github.io/
+// 用户站点仓库（Mikotoo.github.io）→ 站点根路径为 https://mikotoo.github.io/
 export default defineConfig({
   site: 'https://mikotoo.github.io',
   base: '/',
   trailingSlash: 'always',
   integrations: [
     starlight({
-      title: '学习，学习，学习',
-      description: '基因组分析流程、论文复现与生信工具笔记',
+      title: site.title,
+      description: site.description,
       defaultLocale: 'root',
       locales: {
         root: { label: '简体中文', lang: 'zh-CN' },
       },
-      social: [
-        { icon: 'github', label: 'GitHub', href: 'https://github.com/Mikotoo' },
-      ],
+      social: [{ icon: 'github', label: 'GitHub', href: site.github }],
       customCss: ['./src/styles/custom.css'],
       credits: false,
       lastUpdated: false,
       pagination: true,
       tableOfContents: { minHeadingLevel: 2, maxHeadingLevel: 3 },
-      head: [
-        {
-          tag: 'meta',
-          attrs: { name: 'author', content: 'Mikotoo' },
-        },
-      ],
+      head: [{ tag: 'meta', attrs: { name: 'author', content: site.author } }],
       sidebar: [
         {
           label: '开始',
@@ -39,13 +33,10 @@ export default defineConfig({
             { label: '内容索引', slug: 'index-all' },
           ],
         },
+        // 以下两块由 scripts/gen-index.mjs 生成，新增项目/笔记都不需要改本文件
         {
-          label: 'Lotus T2T 分析流程',
-          items: [{ autogenerate: { directory: 'lotus' } }],
-        },
-        {
-          label: '论文分析脚本（Rscript）',
-          items: [{ autogenerate: { directory: 'rscript' } }],
+          label: '项目文档',
+          items: [{ label: '全部项目', slug: 'projects' }, ...projectsSidebar],
         },
         {
           label: '笔记与复现',

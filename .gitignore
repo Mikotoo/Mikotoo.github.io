@@ -4,11 +4,13 @@ dist/
 .astro/
 
 # 构建时自动生成的内容（每次 pnpm gen / pnpm build 重新生成，无需入库）
-src/content/docs/lotus/
-src/content/docs/rscript/
+src/content/docs/_projects/
 src/content/docs/notes/
+src/content/docs/projects.md
 src/content/docs/index-all.md
 src/content/docs/code.md
+src/data/projects.generated.json
+src/sidebar.generated.mjs
 
 # 从 downloads/ 复制出的笔记配图（构建期派生物，不入库）
 public/media/*

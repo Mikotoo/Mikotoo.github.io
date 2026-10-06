@@ -16,8 +16,4 @@ description: 这个站点是谁维护的、怎么联系
 
 ## 相关仓库
 
-| 仓库 | 内容 |
-| --- | --- |
-| [Mikotoo.github.io](https://github.com/Mikotoo/Mikotoo.github.io) | 本站源码（Astro + Starlight）与文章 Markdown |
-| [Lotus_genome](https://github.com/Mikotoo/Lotus_genome) | Lotus japonicus Gifu / MG20 T2T 基因组分析流程 |
-| [Rscript](https://github.com/Mikotoo/Rscript) | 论文 Fig. 2–4 的分析脚本 |
+本站的项目文档来自各个独立的代码仓库，收录清单见[项目文档](/projects/)或 `src/data/projects.json`。站点自身的源码在 [Mikotoo/Mikotoo.github.io](https://github.com/Mikotoo/Mikotoo.github.io)。
