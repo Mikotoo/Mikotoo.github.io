@@ -1,0 +1,6 @@
+# 可选：本地安装依赖时使用国内镜像加速。
+# 复制为 .npmrc 即可生效（.npmrc 已在 .gitignore 中忽略）：
+#   cp .npmrc.example .npmrc
+#
+# CI（GitHub Actions）保持默认 registry，避免镜像同步延迟导致平台相关可选依赖缺失。
+registry=https://registry.npmmirror.com

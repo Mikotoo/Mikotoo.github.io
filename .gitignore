@@ -1,0 +1,42 @@
+# 依赖目录
+node_modules/
+dist/
+.astro/
+
+# 构建时自动生成的内容（每次 pnpm gen / pnpm build 重新生成，无需入库）
+src/content/docs/lotus/
+src/content/docs/rscript/
+src/content/docs/notes/
+src/content/docs/index-all.md
+src/content/docs/code.md
+
+# 从 downloads/ 复制出的笔记配图（构建期派生物，不入库）
+public/media/*
+!public/media/.gitkeep
+
+# 本地 npm 镜像配置：每人网络环境不同，不入库（CI 用默认 registry）
+.npmrc
+
+# 分析中间数据：体积巨大，不应进 git（示例：571 MB 的稀疏矩阵导出）
+**/sparse_matrix.csv
+code/single_cell/**/cache/
+code/single_cell/**/__pycache__/
+code/single_cell/**/*.h5ad
+code/single_cell/**/web_summary.html
+code/single_cell/**/*.error
+code/single_cell/**/*.out
+
+# 旧 Jekyll 站点产物
+_site/
+.jekyll-cache/
+.jekyll-metadata
+
+# 本地预览截图
+.preview/
+
+# 杂项
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.production

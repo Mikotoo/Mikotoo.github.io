@@ -1,0 +1,97 @@
+/* 站点自定义样式：在 Starlight 默认主题之上做小幅调整 */
+
+:root {
+  /* 主色调：偏生物信息的青绿色，夜间模式自动适配由 Starlight 处理 */
+  --sl-color-accent-low: #d3f2ea;
+  --sl-color-accent: #0f8a78;
+  --sl-color-accent-high: #053f37;
+}
+
+:root[data-theme='dark'] {
+  --sl-color-accent-low: #063d36;
+  --sl-color-accent: #3ec9b0;
+  --sl-color-accent-high: #c4f3e9;
+}
+
+/* 中文正文行距与字号：默认值对中英混排偏紧 */
+.sl-markdown-content {
+  line-height: 1.85;
+}
+
+.sl-markdown-content p,
+.sl-markdown-content li {
+  text-wrap: pretty;
+}
+
+/* 长表格（流程索引、版本表）允许横向滚动，避免撑破版心 */
+.sl-markdown-content table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* 英文折叠区：双语 README 默认收起，展开后弱化显示 */
+.sl-markdown-content details {
+  margin-block: 1.25rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.5rem;
+  background: var(--sl-color-gray-6);
+}
+
+.sl-markdown-content details > summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--sl-color-accent-high);
+}
+
+:root[data-theme='dark'] .sl-markdown-content details > summary {
+  color: var(--sl-color-accent);
+}
+
+.sl-markdown-content details[open] {
+  padding-bottom: 0.9rem;
+}
+
+/* 占位符（{PROJ_...}）等代码片段避免折行错乱 */
+.sl-markdown-content code {
+  word-break: break-word;
+}
+
+/* 首页卡片区 */
+.hero-cards {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  margin-block: 2rem;
+}
+
+.hero-cards a {
+  display: block;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.6rem;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 120ms ease, transform 120ms ease;
+}
+
+.hero-cards a:hover {
+  border-color: var(--sl-color-accent);
+  transform: translateY(-2px);
+}
+
+.hero-cards strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--sl-color-accent-high);
+}
+
+:root[data-theme='dark'] .hero-cards strong {
+  color: var(--sl-color-accent);
+}
+
+.hero-cards span {
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+}

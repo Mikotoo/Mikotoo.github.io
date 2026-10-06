@@ -1,0 +1,28 @@
+{
+  "name": "mikotoo-blog",
+  "type": "module",
+  "version": "2.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.22.0",
+  "description": "Mikotoo 的技术笔记与分析流程文档站（Astro + Starlight）",
+  "scripts": {
+    "sync": "node scripts/sync-docs.mjs",
+    "notes": "node scripts/migrate-posts.mjs",
+    "index": "node scripts/gen-index.mjs",
+    "gen": "node scripts/sync-docs.mjs && node scripts/migrate-posts.mjs && node scripts/gen-index.mjs",
+    "predev": "pnpm gen",
+    "dev": "astro dev",
+    "start": "astro dev",
+    "prebuild": "pnpm gen",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "size": "node scripts/check-size.mjs",
+    "postbuild": "node scripts/prune-dist.mjs && node scripts/check-size.mjs"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.42.5",
+    "astro": "^7.3.5",
+    "sharp": "^0.34.2"
+  }
+}

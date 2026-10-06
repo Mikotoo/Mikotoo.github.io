@@ -1,77 +1,88 @@
-# Jekyll GitBook
+# Mikotoo.github.io
 
-Make Jelly site have a GitBook look!
+个人技术笔记与生信分析流程站点，部署在 GitHub Pages：<https://mikotoo.github.io>
 
-## Demo
+技术栈：**Astro + Starlight**（静态站点，构建于 GitHub Actions，本地无需 Ruby）。
 
-Live demo on Github Pages: [https://sighingnow.github.io/jekyll-gitbook](https://sighingnow.github.io/jekyll-gitbook)
+## 内容来源
 
-[![Jekyll Themes](https://img.shields.io/badge/featured%20on-JekyllThemes-red.svg)](https://jekyll-themes.com/jekyll-gitbook/)
+| 区域 | 来源 | 说明 |
+| --- | --- | --- |
+| 分析流程 · Lotus T2T | `../Lotus_genome` 的 `README.md` | 构建时自动抓取，不在本仓库维护 |
+| 分析脚本 · Rscript | `../Rscript` 的 `README.md` | 同上 |
+| 笔记与复现 | 本仓库 `_posts/*.md` | 沿用旧站写法，构建时自动转换 |
+| 站点外观与导航 | `astro.config.mjs`、`src/styles/custom.css` | 手工维护 |
 
-## Why Jekyll with GitBook
+两条原则：
 
-GitBook is an amazing frontend style to present and organize contents (such as book chapters
-and blogs) on Web. The typical to deploy GitBook at [Github Pages][1]
-is building HTML files locally and then push to Github repository, usually to the `gh-pages`
-branch. It's quite annoying to repeat such workload and make it hard for people do version
-control via git for when there are generated HTML files to be staged in and out.
+1. **流程说明只在代码仓库里写一遍**，站点构建时抓取，避免两边不一致。
+2. **写笔记只新建 Markdown 文件**，不需要改模板或配置。
 
-This theme takes style definition out of generated GitBook site and provided the template
-for Jekyll to rendering markdown documents to HTML, thus the whole site can be deployed
-to [Github Pages][1] without generating and uploading HTML bundle every time when there are
-changes to the original repo.
+## 本地开发
 
-## How to Get Started
+需要 Node.js ≥ 22.12（`node -v` 确认）与 pnpm。
 
-This theme can be used just as other [Jekyll themes][1].
-
-[Fork][3] this repository and add your markdown posts to the `_posts` folder.
-
-### Deploy Locally with Jekyll Serve
-
-This theme can be ran locally using Ruby and Gemfiles.
-
-[Testing your GitHub Pages site locally with Jekyll](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/testing-your-github-pages-site-locally-with-jekyll) - GitHub
-
-## Full-text search
-
-The search functionality in jekyll-gitbook theme is powered by the [gitbook-plugin-search-pro][5] plugin and is enabled by default.
-
-[https://sighingnow.github.io/jekyll-gitbook/?q=generated](https://sighingnow.github.io/jekyll-gitbook/?q=generated)
-
-## Code highlight
-
-The code highlight style is configurable the following entry in `_config.yaml`:
-
-```yaml
-syntax_highlighter_style: colorful
+```bash
+pnpm install          # 首次
+pnpm gen              # 抓取 README + 迁移笔记 + 生成索引（dev/build 会自动执行）
+pnpm dev              # http://localhost:4321
+pnpm build            # 产出 dist/，并做体积检查
+pnpm preview          # 预览构建结果
 ```
 
-The default code highlight style is `colorful`, the full supported styles can be found from [the rouge repository][6]. Customized
-style can be added to [./gitbook/rouge/](./gitbook/rouge/).
+> 若在受限沙箱中构建，需要允许 esbuild 启动子进程；Astro 遥测可设 `ASTRO_TELEMETRY_DISABLED=1` 关闭。
 
-## How to generate TOC
+## 目录结构
 
-The jekyll-gitbook theme leverages [jekyll-toc][4] to generate the *Contents* for the page.
-The TOC feature is not enabled by default. To use the TOC feature, modify the TOC
-configuration in `_config.yml`:
-
-```yaml
-toc:
-    enabled: true
-    h_min: 1
-    h_max: 3
+```text
+astro.config.mjs            站点配置与侧边栏
+src/content/docs/           手写页面（intro / about / resources）
+src/content/docs/notes/     由 _posts 生成（已 gitignore）
+src/content/docs/lotus/     由 Lotus_genome 生成（已 gitignore）
+src/content/docs/rscript/   由 Rscript 生成（已 gitignore）
+src/sidebar.generated.mjs   笔记侧边栏（自动生成）
+src/styles/custom.css       自定义样式
+scripts/sync-docs.mjs       聚合上游 README
+scripts/migrate-posts.mjs   迁移 _posts 并本地化配图
+scripts/gen-index.mjs       生成内容索引 / 侧边栏 / 代码页
+scripts/check-size.mjs      构建体积检查
+_posts/                     笔记源文件（手写）
+downloads/                  图片与可下载资料
+code/                       随文脚本与图件
 ```
 
-## License
+## 写一篇新笔记
 
-This work is open sourced under the Apache License, Version 2.0.
+在 `_posts/` 新建 `YYYY-MM-DD-标题.md`：
 
-Copyright 2019 Tao He.
+```markdown
+---
+title: 文章标题
+date: 2026-01-01
+category: 笔记
+---
 
-[1]: https://pages.github.com
-[2]: https://pages.github.com/themes
-[3]: https://github.com/sighingnow/jekyll-gitbook/fork
-[4]: https://github.com/allejo/jekyll-toc
-[5]: https://github.com/gitbook-plugins/gitbook-plugin-search-pro
-[6]: https://github.com/rouge-ruby/rouge/tree/master/lib/rouge/themes
+正文……
+```
+
+图片放到 `downloads/image/<目录>/` 下，正文用本仓库的 GitHub 原始地址引用：
+
+```markdown
+![说明][1]
+
+[1]: https://github.com/Mikotoo/Mikotoo.github.io/raw/main/downloads/image/xxx/yyy.png
+```
+
+构建时会自动复制到 `public/media/<slug>/` 并改写为站点绝对路径，因此线上不依赖 GitHub raw 的可用性。新增文章后侧边栏由 `pnpm gen` 自动更新，无需手改配置。
+
+## 部署
+
+`.github/workflows/deploy.yml`：推送到 `main` 后由 GitHub Actions 构建并发布到 Pages（Settings → Pages → Source 需选择 **GitHub Actions**）。仓库名是 `Mikotoo.github.io`，属于用户站点，站点根路径为 `/`，`astro.config.mjs` 中的 `site` 已是 `https://mikotoo.github.io`。
+
+## 已知的体积问题
+
+仓库历史中提交过单细胞分析缓存（`code/single_cell/02_QC/cache/*.h5ad`，约 217 MB）与 `web_summary.html` 等大文件。它们不影响站点构建（不会被复制进 `dist/`，因为站点只发布 `public/` 与生成页面），但会让 `git clone` 变慢。若要清理，可把这些数据迁到 Zenodo 等外部存储，再用 `git filter-repo` 重写历史。
+
+## 授权
+
+本站文章与自研脚本采用 MIT 许可；引用的第三方主题与资源保留原作者条款。
