@@ -1,0 +1,31 @@
+# 统一换行符：仓库内一律 LF，避免 Windows 上出现 CRLF 转换噪音
+* text=auto eol=lf
+
+# 明确二进制类型，避免 Git 尝试转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.pptx binary
+*.h5ad binary
+*.zip binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.eot binary
+
+# 生成物 / 派生物：标记为不可合并，减少 diff 噪音
+pnpm-lock.yaml -diff
+dist/** -diff
+public/media/** -diff
+
+# 语法高亮
+*.sh text eol=lf
+*.mjs text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf

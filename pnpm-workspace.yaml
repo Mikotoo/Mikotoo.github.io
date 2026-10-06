@@ -1,0 +1,6 @@
+# pnpm v11：构建依赖白名单
+# v11 起 onlyBuiltDependencies / neverBuiltDependencies 已合并为 allowBuilds 映射
+# 参考：https://pnpm.io/zh/11.x/migration
+allowBuilds:
+  esbuild: true
+  sharp: true

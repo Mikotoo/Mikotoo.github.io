@@ -1,0 +1,42 @@
+name: Preview build (no deploy)
+
+# 在 preview 分支上验证能否构建成功，不发布到 Pages。
+# 构建产物可在该次运行的 Artifacts 里下载（site-preview.zip）。
+on:
+  push:
+    branches: [preview]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build site
+        run: pnpm build
+        env:
+          ASTRO_TELEMETRY_DISABLED: '1'
+
+      - name: Upload build output
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-preview
+          path: dist
+          retention-days: 14
