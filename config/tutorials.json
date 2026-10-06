@@ -1,0 +1,24 @@
+{
+  "title": "生物信息学基础",
+  "sourceDir": "../生物信息学教程",
+  "dataDir": "02_visualization_simple sample/lotus_circos_data",
+  "lessons": [
+    {
+      "slug": "01-linux-genome",
+      "order": 1,
+      "title": "第 1 节：Linux 与参考基因组",
+      "description": "从 Linux 基础命令出发，认识 FASTA、GFF3 与基因结构，并完成大豆参考基因组的查看、提取和统计练习。",
+      "topics": ["Linux", "FASTA", "GFF3", "基因结构"],
+      "source": "01_linux_genome_intro_practice.md"
+    },
+    {
+      "slug": "02-python-r-visualization",
+      "order": 2,
+      "title": "第 2 节：Python 与 R 数据可视化",
+      "description": "把上一节的统计结果转化为柱状图、箱线图、热图与散点图，并使用 Lotus 示例数据练习基因组圈图。",
+      "topics": ["Python", "R", "数据可视化", "circlize"],
+      "source": "02_visualization_simple sample/02_visualization_python_R.md",
+      "hasPracticeData": true
+    }
+  ]
+}

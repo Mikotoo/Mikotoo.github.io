@@ -1,0 +1,38 @@
+---
+title: '如何获取基因组文件'
+date: 2022-04-07
+category: 'Jekyll'
+sidebar:
+  order: 79779592
+---
+
+
+> 本文介绍从Phytozome下载基因组的方法
+
+保存基因组的数据库有很多，除了大型数据库如[NCBI][1]、[JGI][2]等，许多模式生物也有自己的物种数据库。<br>
+早年释放的基因组，如今在各个综合数据库中基本都有资源；近年来不少中国团队或许也会选择将新组装的基因组投放到我国的[**国家基因组科学数据中心**][3]。
+
+NCBI的基因组资源，其染色体、基因、转录本、蛋白质等都有各自的ID系统，使用相当不方便；[**Phytozome**][4]是JGI下属的子项目，存放了大多数植物最新版本的基因组和基因数据，推荐同学们使用。
+
+进入页面后<br>
+- ##### 在输入栏输入物种名称，选择基因组版本
+
+![pic1][5]
+
+- ##### 点击 `get standard data files` 按钮，进入下载页面
+
+![pic2][6]
+
+- ##### 点选你需要的文件，点击右上角下载
+
+![pic3][7]<br>
+> 可以直接下载到本地，也可复制命令行到服务器端运行。
+
+
+[1]: https://www.ncbi.nlm.nih.gov/
+[2]: https://data.jgi.doe.gov/
+[3]: https://ngdc.cncb.ac.cn/
+[4]: https://phytozome-next.jgi.doe.gov/
+[5]: /media/genome/blog1_genomedownload/genome_download_1.png
+[6]: /media/genome/blog1_genomedownload/genome_download_2.png
+[7]: /media/genome/blog1_genomedownload/genome_download_3.png

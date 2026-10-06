@@ -1,0 +1,68 @@
+{
+  "lessons": [
+    {
+      "slug": "01-linux-genome",
+      "source": "01_linux_genome_intro_practice.md",
+      "sourceSha256": "72312a5fee41c7c23ecb1daef98181641660c37baf3dd85a1042649f67b6f889",
+      "snapshotSha256": "54c4a9093fe6ab8034793aee0fe31bfaae109715c4d313c894d009a4f2e6cfcf"
+    },
+    {
+      "slug": "02-python-r-visualization",
+      "source": "02_visualization_simple sample/02_visualization_python_R.md",
+      "sourceSha256": "ebe3523ca4016202cd09b8aea52f42d3b1b7c3a962e4836aa995f46111b4e9c3",
+      "snapshotSha256": "b8530d62bdece1c2512729e44a01757062f1ab83a3810cdc1929d34b35501294"
+    }
+  ],
+  "data": [
+    {
+      "name": "Cent.txt",
+      "bytes": 540,
+      "sha256": "e93696f32095d14b084017300d0dbb36df70500b0a9cedb789a7c15ae3297c53"
+    },
+    {
+      "name": "Chr_length.txt",
+      "bytes": 339,
+      "sha256": "d73cbaf0c1676624ab2148bf787bb694da149f762cc7c8c2eae938b4243995c1"
+    },
+    {
+      "name": "DEL_density.txt",
+      "bytes": 80709,
+      "sha256": "db544305b4f88808be80b4c81707d6b8c4fddc987308a9bf74faf9ac765bcbc1"
+    },
+    {
+      "name": "GC.0.5M.bed",
+      "bytes": 69549,
+      "sha256": "165c59e4ae064da0d34b77f70e9f76e8a8d6c9cb3269a8d8d7b18f9e71abba4d"
+    },
+    {
+      "name": "gene_density.txt",
+      "bytes": 71717,
+      "sha256": "9c320e6c8597b5e67126c24972d11198174b1b3220c7e16d0fce28c5240d2449"
+    },
+    {
+      "name": "GifuT2T_MG20T2T_collinear.txt",
+      "bytes": 1685,
+      "sha256": "56a988f1d94a83d02118964b47108a50feb17bd513d05b7418e4f425d2206d1c"
+    },
+    {
+      "name": "INS_density.txt",
+      "bytes": 80709,
+      "sha256": "21ec4d87e35c4b97f05d596c5ff8713ca8e8b633ae472fca7bee9a5c39dadaf1"
+    },
+    {
+      "name": "SNP_density.txt",
+      "bytes": 80709,
+      "sha256": "a339e9fe3216b8a3ed0cce919085e8fd124b152be409f206f5325ce33707e4f6"
+    },
+    {
+      "name": "TE_density.txt",
+      "bytes": 71717,
+      "sha256": "21ad15a96d59273959a7b8c256843072c3e98d20f090b36408eb603d455a51fb"
+    }
+  ],
+  "archive": {
+    "name": "lotus-circos-data.zip",
+    "bytes": 458978,
+    "sha256": "8eb6f47864bda39aef0aa1e074a9eff74574e8bdb95ef6d046381f8a069d6cb3"
+  }
+}

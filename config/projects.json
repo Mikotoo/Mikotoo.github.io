@@ -1,0 +1,32 @@
+{
+  "_comment": "项目清单：key 固定站内路径 /_projects/<key>/；dir 相对本站父目录解析，也支持绝对路径；href 为代码仓库地址。pnpm sync 显式更新快照，普通构建不读取 dir。新增项目须先同步快照；中文标签见 project-labels.json。",
+  "projects": [
+    {
+      "key": "lotus",
+      "landing": "projects/lotus",
+      "order": 10,
+      "title": "Lotus T2T 基因组",
+      "dir": "Lotus_genome",
+      "repo": "Lotus_genome",
+      "href": "https://github.com/Mikotoo/Lotus_genome",
+      "summary": "围绕百脉根 Gifu 与 MG20，连接端粒到端粒组装、基因注释、基因组结构比较与表达分析。",
+      "eyebrow": "PLANT GENOMICS",
+      "featured": true,
+      "tags": ["基因组组装", "注释", "比较基因组", "转录组"]
+    },
+    {
+      "key": "rscript",
+      "landing": "projects/rscript",
+      "order": 20,
+      "title": "多组学分析与论文图表",
+      "dir": "Rscript",
+      "repo": "Rscript",
+      "href": "https://github.com/Mikotoo/Rscript",
+      "showRepository": false,
+      "summary": "从结构变异、同源基因到 bulk 与单核 RNA-seq，串联多组学数据分析和论文图表所用的分析脚本。",
+      "eyebrow": "MULTI-OMICS & CODE",
+      "featured": true,
+      "tags": ["结构变异", "同源基因", "bulk RNA-seq", "单细胞"]
+    }
+  ]
+}

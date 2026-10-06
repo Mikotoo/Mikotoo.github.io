@@ -1,0 +1,12 @@
+{
+  "_comment": "笔记展示文案。key 对应 content/notes/ 文件名；featured 控制首页精选。未登记的新笔记仍自动出现在笔记页。",
+  "readings": [
+    {"key":"soybean-snrna","title":"大豆根瘤的单细胞与空间转录组","topic":"论文复现","summary":"围绕 Nature Plants 论文，梳理根瘤细胞图谱，并实践表达矩阵处理、数据整合与细胞注释。","featured":true},
+    {"key":"rnaseq","title":"从测序数据到差异表达","topic":"转录组","summary":"RNA-seq 数据处理与差异表达分析，把关键步骤和可视化放在同一条分析路径中。","featured":true},
+    {"key":"bsseq","title":"用 BS-seq 探索 DNA 甲基化","topic":"表观组","summary":"从亚硫酸氢盐测序比对，到甲基化水平计算与差异甲基化区域识别。","featured":true},
+    {"key":"sirna","title":"小 RNA 数据分析与 siRNA 筛选","topic":"小 RNA","summary":"质量控制、序列简并、参考库比对，以及 24 nt siRNA 的筛选步骤。"},
+    {"key":"repeatmask","title":"RepeatMasker 的安装与使用","topic":"基因组工具","summary":"准备重复序列分析环境，使用 RepeatMasker 完成基因组重复序列屏蔽。"},
+    {"key":"download","title":"获取公共测序数据","topic":"数据准备","summary":"从 SRA、ENA 查找测序项目，定位并下载后续分析需要的原始数据。"},
+    {"key":"genome","title":"查找与获取参考基因组","topic":"数据准备","summary":"选择需要的参考基因组与注释文件，为序列分析准备基础数据。"}
+  ]
+}

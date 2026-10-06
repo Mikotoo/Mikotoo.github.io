@@ -29,3 +29,6 @@ public/media/** -diff
 *.yml text eol=lf
 *.yaml text eol=lf
 *.md text eol=lf
+
+# 教程原始下载与数据按字节保存，与导入清单 SHA-256、ZIP 内容保持一致
+public/tutorials/bioinformatics/** -text

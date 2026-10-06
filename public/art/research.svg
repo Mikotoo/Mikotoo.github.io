@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="420" viewBox="0 0 600 420" fill="none">
+  <title>Botanical networks</title>
+  <desc>An abstract decorative composition of branching leaves, a double helix, and connected circles. It does not represent scientific measurements.</desc>
+  <defs>
+    <linearGradient id="leaf" x1="180" y1="340" x2="400" y2="80" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#427F66" stop-opacity=".1"/>
+      <stop offset="1" stop-color="#8EBA98" stop-opacity=".48"/>
+    </linearGradient>
+    <linearGradient id="halo" x1="300" y1="42" x2="300" y2="378" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#99B49C" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#C1AB75" stop-opacity=".04"/>
+    </linearGradient>
+  </defs>
+  <!-- Field lines and registration marks suggest a notebook, not a data plot. -->
+  <circle cx="305" cy="208" r="165" fill="url(#halo)"/>
+  <g stroke="#819B86" stroke-width=".8" opacity=".28">
+    <circle cx="305" cy="208" r="165"/>
+    <circle cx="305" cy="208" r="132" stroke-dasharray="2 8"/>
+    <path d="M70 349H543M305 27V389M96 208H520" stroke-dasharray="3 7"/>
+    <path d="M116 66V80M109 73H123M496 324V338M489 331H503M438 48V60M432 54H444"/>
+    <path d="M74 299V349H124M486 77H536V127"/>
+  </g>
+  <!-- A climbing stem with paired, translucent leaves. -->
+  <g stroke="#598B70" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M213 353C227 308 250 276 282 239C316 199 341 154 369 78"/>
+    <path d="M254 275C223 273 195 255 180 224C218 224 246 238 254 275Z" fill="url(#leaf)"/>
+    <path d="M279 242C294 210 323 194 359 195C342 223 313 241 279 242Z" fill="url(#leaf)"/>
+    <path d="M302 212C267 204 246 181 245 148C277 161 298 181 302 212Z" fill="url(#leaf)"/>
+    <path d="M324 177C341 148 370 136 402 143C381 168 356 178 324 177Z" fill="url(#leaf)"/>
+    <path d="M345 132C320 123 308 103 312 77C335 88 347 106 345 132Z" fill="url(#leaf)"/>
+    <path d="M361 99C360 71 374 51 397 41C401 66 388 88 361 99Z" fill="url(#leaf)"/>
+    <g stroke-width=".7" opacity=".65">
+      <path d="M254 275L193 234M279 242L345 201M302 212L253 160M324 177L389 148M345 132L318 89M361 99L390 54"/>
+      <path d="M224 255L223 238M236 263L215 263M311 223L313 207M324 215L341 215M276 184L276 171M283 192L266 190M351 162L355 150M367 157L381 159"/>
+    </g>
+  </g>
+  <!-- Two interwoven paths, with a gently changing rhythm. -->
+  <g transform="translate(107 73) rotate(-18 48 116)" stroke-linecap="round">
+    <path d="M22 0C22 41 78 43 78 83S22 126 22 166S78 209 78 249" stroke="#47896F" stroke-width="2"/>
+    <path d="M78 0C78 41 22 43 22 83S78 126 78 166S22 209 22 249" stroke="#AE8E54" stroke-width="1.6"/>
+    <g stroke="#719A7C" stroke-width="1" opacity=".65">
+      <path d="M24 13H76M31 26H69M44 39H56M34 57H66M25 70H75M23 84H77M27 98H73M38 111H62M39 139H61M27 152H73M23 167H77M26 182H74M36 195H64M43 222H57M30 235H70"/>
+    </g>
+    <g fill="#47896F" stroke="none"><circle cx="22" cy="0" r="3"/><circle cx="78" cy="249" r="3"/></g>
+    <g fill="#AE8E54" stroke="none"><circle cx="78" cy="0" r="3"/><circle cx="22" cy="249" r="3"/></g>
+  </g>
+  <!-- A small open network, connected to the botanical motif. -->
+  <g stroke="#719985" stroke-width="1" stroke-linecap="round">
+    <path d="M359 195L419 211L461 162L508 216L473 278L421 298L366 275L419 211L473 278L461 162M421 298L419 211M366 275L473 278M508 216L419 211" opacity=".62"/>
+    <path d="M461 162L478 115M508 216L550 232M421 298L440 347M366 275L330 317" opacity=".45" stroke-dasharray="3 5"/>
+    <g fill="#6FA58B">
+      <circle cx="419" cy="211" r="6"/><circle cx="473" cy="278" r="5"/>
+      <circle cx="366" cy="275" r="4"/><circle cx="508" cy="216" r="4"/>
+    </g>
+    <g fill="#B9A06A" stroke="#B9A06A"><circle cx="461" cy="162" r="5"/><circle cx="421" cy="298" r="4"/></g>
+    <g fill="none"><circle cx="419" cy="211" r="13" opacity=".45"/><circle cx="473" cy="278" r="11" opacity=".45"/><circle cx="478" cy="115" r="3"/><circle cx="550" cy="232" r="3"/><circle cx="440" cy="347" r="3"/><circle cx="330" cy="317" r="3"/></g>
+  </g>
+  <g fill="#B29A65" opacity=".75">
+    <circle cx="238" cy="92" r="2.5"/><circle cx="282" cy="50" r="2"/><circle cx="542" cy="158" r="2"/><circle cx="279" cy="370" r="2.5"/>
+  </g>
+  <path d="M172 371H243M172 378H214" stroke="#8A9C83" stroke-width="1" opacity=".5"/>
+</svg>

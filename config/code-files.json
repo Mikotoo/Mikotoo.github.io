@@ -1,0 +1,20 @@
+{
+  "_comment": "代码页公开列出的已提交文件。新增随文脚本时在此登记；不扫描未跟踪的本地分析文件。",
+  "files": [
+    "code/assemble/polish/bash.sh",
+    "code/single_cell/02_QC/__init__.py",
+    "code/single_cell/02_QC/_processData/top10_upregulated_genes.csv",
+    "code/single_cell/02_QC/annaDataQC.py",
+    "code/single_cell/02_QC/bash.sh",
+    "code/single_cell/02_QC/dimenRedu.py",
+    "code/single_cell/02_QC/integrate.py",
+    "code/single_cell/02_QC/scripts/__init__.py",
+    "code/single_cell/02_QC/scripts/basic.py",
+    "code/single_cell/02_QC/scripts/rTools.py",
+    "code/single_cell/02_QC/scripts/scDblFinder.py",
+    "code/single_cell/cellRanger/config.yaml",
+    "code/single_cell/cellRanger/test.csv",
+    "code/single_cell/cellRanger/velocyto.yaml",
+    "code/tools/parseUmiDirectionFromCellrangerBam.py"
+  ]
+}

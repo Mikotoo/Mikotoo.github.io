@@ -3,19 +3,12 @@ node_modules/
 dist/
 .astro/
 
-# 构建时自动生成的内容（每次 pnpm gen / pnpm build 重新生成，无需入库）
-# 例外：src/content/docs/_projects/ 与 src/data/projects.generated.json 是**有意入库**的快照——
-# CI（GitHub Actions）拿不到同级项目仓库，靠它们兜底，线上项目文档才不会消失。
-# 本地构建会用仓库里的 README 重新生成，正常提交即可。
-src/content/docs/notes/
-src/content/docs/projects.md
-src/content/docs/index-all.md
-src/content/docs/code.md
-src/sidebar.generated.mjs
+# 自动装配目录：只编辑 content/、config/ 和 public/。
+# snapshots/ 有意提交；仅 pnpm sync 更新项目快照。
+.generated/
+src/content/docs/
 
-# 从 downloads/ 复制出的笔记配图（构建期派生物，不入库）
-public/media/*
-!public/media/.gitkeep
+# public/media/ 现在是正式媒体源，必须随笔记提交。
 
 # 本地 npm 镜像配置：每人网络环境不同，不入库（CI 用默认 registry）
 .npmrc

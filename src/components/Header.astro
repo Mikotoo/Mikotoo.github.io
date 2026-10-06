@@ -1,0 +1,37 @@
+---
+import config from 'virtual:starlight/user-config';
+import SiteTitle from 'virtual:starlight/components/SiteTitle';
+import Search from 'virtual:starlight/components/Search';
+import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
+
+const shouldRenderSearch =
+  config.pagefind || config.components.Search !== '@astrojs/starlight/components/Search.astro';
+const navigation = [
+  { label: '首页', href: '/' },
+  { label: '教程', href: '/tutorials/' },
+  { label: '项目', href: '/projects/' },
+  { label: '笔记', href: '/notes/' },
+  { label: '代码', href: '/code/' },
+  { label: '关于', href: '/about/' },
+];
+const pathname = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isCurrent = (href: string) => {
+  const route = href.replace(/\/+$/, '') || '/';
+  if (route === '/projects' && pathname.startsWith('/_projects/')) return true;
+  if (route === '/code' && pathname === '/resources') return true;
+  return route === '/' ? pathname === '/' : pathname === route || pathname.startsWith(`${route}/`);
+};
+---
+
+<div class="site-header">
+  <div class="site-brand"><SiteTitle /></div>
+  <nav class="site-navigation print:hidden" aria-label="主导航">
+    {navigation.map(({ label, href }) => (
+      <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a>
+    ))}
+  </nav>
+  <div class="site-tools print:hidden">
+    {shouldRenderSearch && <Search />}
+    <ThemeSelect />
+  </div>
+</div>

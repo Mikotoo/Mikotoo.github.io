@@ -36,9 +36,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Test content pipeline
+        run: pnpm test
+
       - name: Build site
-        # 同级仓库（Lotus_genome / Rscript）在 CI 上不存在，
-        # sync-docs 会自动跳过，仅发布笔记与手写页面。
+        # 只读取已提交的 content/、public/ 与 snapshots/；不依赖同级仓库。
+        # postbuild 严格检查站内文件链接，缺失即失败。
         run: pnpm build
         env:
           ASTRO_TELEMETRY_DISABLED: '1'
