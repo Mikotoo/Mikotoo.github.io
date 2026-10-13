@@ -17,6 +17,7 @@ sidebar:
 
 <details>
 <summary>English</summary>
+
 **Purpose**: Export the final annotation and intersect the exported gene BED with itself to obtain the non-redundant overlapping pairs used to check the exported gene set.
 **Entry point**: `bedtools.sh`.
 **Inputs**: `Lotus_Gifu_gene.bed`, the gene intervals exported from the final Gifu T2T annotation, with the gene identifier in column 4.
@@ -26,4 +27,19 @@ sidebar:
 
 </details>
 
+## 代码
 
+以下为该步骤目录中的实际文件（同步快照，与该目录内容一致）。
+
+<details open>
+<summary><code>bedtools.sh</code> · Shell · 3 行</summary>
+
+[在 GitHub 上查看此文件](https://github.com/Mikotoo/Lotus_genome/blob/main/scripts/02_annotation/09_annotation_export/bedtools.sh)
+
+```bash
+bedtools intersect -a Lotus_Gifu_gene.bed -b Lotus_Gifu_gene.bed -wa -wb \
+| awk -F'\t' '$4 < $9 {print $0}' \
+> overlaps.tsv
+```
+
+</details>

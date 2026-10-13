@@ -67,6 +67,7 @@ sidebar:
 
 <details>
 <summary>English</summary>
+
 The analysis pipeline, numbered in execution order. Each step directory holds the scripts for that step **as they were run on the Gifu accession**, together with a `README.md` describing the method, inputs, outputs, parameters and the tools used; scripts keep their original filenames because several of them invoke one another by name, and the step README identifies the entry point for that step.
 
 ### Stage index
@@ -138,5 +139,3 @@ Related directories: `environment/versions.tsv` (tool versions, purposes and sou
 | [06 比较基因组](/_projects/lotus/scripts/06-genome-comparison/) | — |
 | [07 转录组](/_projects/lotus/scripts/07-transcriptome/) | — |
 | [08 单核转录组](/_projects/lotus/scripts/08-single-nucleus/) | — |
-
-

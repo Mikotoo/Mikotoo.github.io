@@ -1,8 +1,8 @@
 ---
-title: '补洞'
+title: 'Gapclose'
 sidebar:
-  label: '补洞'
-  order: 6
+  label: 'Gapclose'
+  order: 7
 ---
 
 
@@ -16,6 +16,7 @@ sidebar:
 
 <details>
 <summary>English</summary>
+
 **Purpose**: Close the remaining gaps in the draft by two independent routes: TGS-GapCloser2 with ONT UL reads, and quarTeT GapFiller using the contig set as filling sequence.
 **Entry point**: `gapcloser.sh` and `quarTeT.sh` (neither invokes the other; each is submitted on its own)
 **Inputs**: `chr2.fa` (local draft, shared by both scripts); ONT UL reads ``{PROJ_LOTUS_ZC}`/data/Gifu/ont/Gifu-jing-ye.pass.ul.fa`; filling sequence ``{PROJ_LOTUS_ZC}`/Gifu_hifionly/04.tel_check/contigs.fa`.
@@ -25,4 +26,39 @@ sidebar:
 
 </details>
 
+## 代码
 
+以下为该步骤目录中的实际文件（同步快照，与该目录内容一致）。
+
+<details open>
+<summary><code>gapcloser.sh</code> · Shell · 5 行</summary>
+
+[在 GitHub 上查看此文件](https://github.com/Mikotoo/Lotus_genome/blob/main/scripts/01_assembly/07_gapclose/gapcloser.sh)
+
+```bash
+
+tgsgapcloser2 --scaff chr2.fa \
+--reads {ontReads}.fa \
+--output ont_fill_out \
+--ne --thread 64
+```
+
+</details>
+
+<details open>
+<summary><code>quarTeT.sh</code> · Shell · 8 行</summary>
+
+[在 GitHub 上查看此文件](https://github.com/Mikotoo/Lotus_genome/blob/main/scripts/01_assembly/07_gapclose/quarTeT.sh)
+
+```bash
+
+
+python ~/software/quarTeT/quartet.py GapFiller \
+-d chr2.fa \
+-g {PROJ_LOTUS_ZC}/Gifu_hifionly/04.telomere_check/contigs.fa \
+-p Gifu_gapfill \
+-f 20000 -i 90 \
+-t 88
+```
+
+</details>

@@ -16,6 +16,7 @@ sidebar:
 
 <details>
 <summary>English</summary>
+
 **Purpose**: Upstream bulk RNA-seq processing — fastp read QC, HISAT2 alignment to the Gifu T2T reference and StringTie per-sample quantification, joined into one TPM matrix.
 **Entry point**: `fastp.sh`, `align.sh`
 **Inputs**: `align.conf` (sample name, R1 FASTQ, R2 FASTQ) and the `raw/<sample>-R1.fq.gz` / `-R2.fq.gz` files it points to; `Gifu_v1.0.fasta` for the index and `Lotus_GifuT2T.gtf` for StringTie.
@@ -25,4 +26,144 @@ sidebar:
 
 </details>
 
+## 代码
 
+以下为该步骤目录中的实际文件（同步快照，与该目录内容一致）。
+
+<details open>
+<summary><code>align.conf</code> · ini · 39 行</summary>
+
+[在 GitHub 上查看此文件](https://github.com/Mikotoo/Lotus_genome/blob/main/scripts/07_transcriptome/00_prepare/align.conf)
+
+```ini
+Gifu_flower_rep1	raw/Gifu_flower_rep1-R1.fq.gz	raw/Gifu_flower_rep1-R2.fq.gz
+Gifu_flower_rep2	raw/Gifu_flower_rep2-R1.fq.gz	raw/Gifu_flower_rep2-R2.fq.gz
+Gifu_flower_rep3	raw/Gifu_flower_rep3-R1.fq.gz	raw/Gifu_flower_rep3-R2.fq.gz
+Gifu_leaf_rep1	raw/Gifu_leaf_rep1-R1.fq.gz	raw/Gifu_leaf_rep1-R2.fq.gz
+Gifu_leaf_rep2	raw/Gifu_leaf_rep2-R1.fq.gz	raw/Gifu_leaf_rep2-R2.fq.gz
+Gifu_leaf_rep3	raw/Gifu_leaf_rep3-R1.fq.gz	raw/Gifu_leaf_rep3-R2.fq.gz
+Gifu_nodule_dpi10_rep1	raw/Gifu_nodule_dpi10_rep1-R1.fq.gz	raw/Gifu_nodule_dpi10_rep1-R2.fq.gz
+Gifu_nodule_dpi10_rep2	raw/Gifu_nodule_dpi10_rep2-R1.fq.gz	raw/Gifu_nodule_dpi10_rep2-R2.fq.gz
+Gifu_nodule_dpi10_rep3	raw/Gifu_nodule_dpi10_rep3-R1.fq.gz	raw/Gifu_nodule_dpi10_rep3-R2.fq.gz
+Gifu_nodule_dpi21_rep1	raw/Gifu_nodule_dpi21_rep1-R1.fq.gz	raw/Gifu_nodule_dpi21_rep1-R2.fq.gz
+Gifu_nodule_dpi21_rep2	raw/Gifu_nodule_dpi21_rep2-R1.fq.gz	raw/Gifu_nodule_dpi21_rep2-R2.fq.gz
+Gifu_nodule_dpi21_rep3	raw/Gifu_nodule_dpi21_rep3-R1.fq.gz	raw/Gifu_nodule_dpi21_rep3-R2.fq.gz
+Gifu_nodule_dpi45_rep1	raw/Gifu_nodule_dpi45_rep1-R1.fq.gz	raw/Gifu_nodule_dpi45_rep1-R2.fq.gz
+Gifu_nodule_dpi45_rep2	raw/Gifu_nodule_dpi45_rep2-R1.fq.gz	raw/Gifu_nodule_dpi45_rep2-R2.fq.gz
+Gifu_nodule_dpi45_rep3	raw/Gifu_nodule_dpi45_rep3-R1.fq.gz	raw/Gifu_nodule_dpi45_rep3-R2.fq.gz
+Gifu_pod_rep1	raw/Gifu_pod_rep1-R1.fq.gz	raw/Gifu_pod_rep1-R2.fq.gz
+Gifu_pod_rep2	raw/Gifu_pod_rep2-R1.fq.gz	raw/Gifu_pod_rep2-R2.fq.gz
+Gifu_pod_rep3	raw/Gifu_pod_rep3-R1.fq.gz	raw/Gifu_pod_rep3-R2.fq.gz
+Gifu_root_dpi02_rep1	raw/Gifu_root_dpi02_rep1-R1.fq.gz	raw/Gifu_root_dpi02_rep1-R2.fq.gz
+Gifu_root_dpi02_rep2	raw/Gifu_root_dpi02_rep2-R1.fq.gz	raw/Gifu_root_dpi02_rep2-R2.fq.gz
+Gifu_root_dpi02_rep3	raw/Gifu_root_dpi02_rep3-R1.fq.gz	raw/Gifu_root_dpi02_rep3-R2.fq.gz
+Gifu_root_dpi10_rep1	raw/Gifu_root_dpi10_rep1-R1.fq.gz	raw/Gifu_root_dpi10_rep1-R2.fq.gz
+Gifu_root_dpi10_rep2	raw/Gifu_root_dpi10_rep2-R1.fq.gz	raw/Gifu_root_dpi10_rep2-R2.fq.gz
+Gifu_root_dpi10_rep3	raw/Gifu_root_dpi10_rep3-R1.fq.gz	raw/Gifu_root_dpi10_rep3-R2.fq.gz
+Gifu_root_dpi21_rep1	raw/Gifu_root_dpi21_rep1-R1.fq.gz	raw/Gifu_root_dpi21_rep1-R2.fq.gz
+Gifu_root_dpi21_rep2	raw/Gifu_root_dpi21_rep2-R1.fq.gz	raw/Gifu_root_dpi21_rep2-R2.fq.gz
+Gifu_root_dpi21_rep3	raw/Gifu_root_dpi21_rep3-R1.fq.gz	raw/Gifu_root_dpi21_rep3-R2.fq.gz
+Gifu_root_dpi45_rep1	raw/Gifu_root_dpi45_rep1-R1.fq.gz	raw/Gifu_root_dpi45_rep1-R2.fq.gz
+Gifu_root_dpi45_rep2	raw/Gifu_root_dpi45_rep2-R1.fq.gz	raw/Gifu_root_dpi45_rep2-R2.fq.gz
+Gifu_root_dpi45_rep3	raw/Gifu_root_dpi45_rep3-R1.fq.gz	raw/Gifu_root_dpi45_rep3-R2.fq.gz
+Gifu_root_hpi48_rep1	raw/Gifu_root_hpi48_rep1-R1.fq.gz	raw/Gifu_root_hpi48_rep1-R2.fq.gz
+Gifu_root_hpi48_rep2	raw/Gifu_root_hpi48_rep2-R1.fq.gz	raw/Gifu_root_hpi48_rep2-R2.fq.gz
+Gifu_root_hpi48_rep3	raw/Gifu_root_hpi48_rep3-R1.fq.gz	raw/Gifu_root_hpi48_rep3-R2.fq.gz
+Gifu_root_uni_rep1	raw/Gifu_root_uni_rep1-R1.fq.gz	raw/Gifu_root_uni_rep1-R2.fq.gz
+Gifu_root_uni_rep2	raw/Gifu_root_uni_rep2-R1.fq.gz	raw/Gifu_root_uni_rep2-R2.fq.gz
+Gifu_root_uni_rep3	raw/Gifu_root_uni_rep3-R1.fq.gz	raw/Gifu_root_uni_rep3-R2.fq.gz
+Gifu_stem_rep1	raw/Gifu_stem_rep1-R1.fq.gz	raw/Gifu_stem_rep1-R2.fq.gz
+Gifu_stem_rep2	raw/Gifu_stem_rep2-R1.fq.gz	raw/Gifu_stem_rep2-R2.fq.gz
+Gifu_stem_rep3	raw/Gifu_stem_rep3-R1.fq.gz	raw/Gifu_stem_rep3-R2.fq.gz
+```
+
+</details>
+
+<details open>
+<summary><code>align.sh</code> · Shell · 51 行</summary>
+
+[在 GitHub 上查看此文件](https://github.com/Mikotoo/Lotus_genome/blob/main/scripts/07_transcriptome/00_prepare/align.sh)
+
+```bash
+#!/bin/bash
+#CSUB -J stringtie
+#CSUB -q c01
+#CSUB -o stringtie.out
+#CSUB -e stringtie.error
+#CSUB -n 64
+#CSUB -R span[hosts=1]
+
+cd {PROJ_LOTUS_HX}/03_annotation/Gifu/04.rnasq/00.index
+hisat2-build -p 64 Gifu_v1.0.fasta Gifu
+#ndex={PROJ_LOTUS_HX}/03_annotation/Gifu/04.rnasq/00.index/Gifu
+dir={PROJ_LOTUS_HX}/03_annotation/Gifu/04.rnasq
+ref1={PROJ_LOTUS_HX}/00_assembly_result/GifuT2T/Lotus_GifuT2T.gtf
+cat {PROJ_LOTUS_HX}/01_data/Gifu/RNA/clean/align.conf | while read id;
+do
+arr=($id)
+sample=${arr[0]}
+fq1=${arr[1]}
+fq2=${arr[2]}
+
+cd $dir
+hisat2 -p 64 -x $index -1 $fq1 -2 $fq2 -S $sample.sam --summary-file $sample_hisat.log --new-summary
+grep "NH:i:1" $sample.sam | grep "YT:Z:CP" > ${sample}_unique.sam
+samtools view -H $sample.sam > ${sample}_head.sam
+cat ${sample}_unique.sam >> ${sample}_head.sam
+samtools sort -@ 64 -o $sample.bam ${sample}_head.sam
+rm *sam
+samtools index $sample.bam
+mkdir 02.stringtie
+mkdir 02.stringtie/$sample && cd 02.stringtie/$sample
+stringtie -p 64 -G $ref1 -e -B -o $sample.gtf -A $sample.tsv $dir/01.align/$sample.bam
+
+cd $dir
+mkdir 02.tpm
+sed '1d' 02.stringtie/$sample/$sample.tsv | awk '{print $1"\t"$9}'|sort > 02.tpm/$sample.tpm
+
+done
+
+cd $dir/02.tpm
+ls *.tpm | sort > tpm.files
+mapfile -t files < tpm.files
+cp "${files[0]}" __merged.tmp
+for f in "${files[@]:1}"; do
+  join -t $'\t' -a1 -a2 -e 0 -o auto __merged.tmp "$f" > __merged.next
+  mv __merged.next __merged.tmp
+done
+header="gene_id"
+for f in "${files[@]}"; do header+="\t${f%.tpm}"; done
+{ echo -e "$header"; cat __merged.tmp; } > all_samples.tpm.tsv
+
+rm -f __merged.tmp tpm.files
+```
+
+</details>
+
+<details open>
+<summary><code>fastp.sh</code> · Shell · 18 行</summary>
+
+[在 GitHub 上查看此文件](https://github.com/Mikotoo/Lotus_genome/blob/main/scripts/07_transcriptome/00_prepare/fastp.sh)
+
+```bash
+#!/bin/bash
+#CSUB -J fastp
+#CSUB -q c01
+#CSUB -o fastp.out
+#CSUB -e fastp.error
+#CSUB -n 88
+#CSUB -R span[hosts=1]
+
+cat align.conf|while read id;
+do
+arr=($id)
+sample=${arr[0]}
+fq1=${arr[1]}
+fq2=${arr[2]}
+
+fastp -i $fq1 -I $fq2 -o clean/${sample}-R1.fastq.gz -O clean/${sample}-R2.fastq.gz -w 88 -j report/${sample}.json -h report/${sample}.html
+
+done
+```
+
+</details>

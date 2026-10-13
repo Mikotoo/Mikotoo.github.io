@@ -111,4 +111,56 @@ scripts/
 | [Demo](/_projects/lotus/demo/) | — |
 | [Scripts](/_projects/lotus/scripts/) | — |
 
+## 代码
 
+以下为该步骤目录中的实际文件（同步快照，与该目录内容一致）。
+
+<details open>
+<summary><code>environment/versions.tsv</code> · text · 40 行</summary>
+
+[在 GitHub 上查看此文件](https://github.com/Mikotoo/Lotus_genome/blob/main/environment/versions.tsv)
+
+```text
+# Software versions used in this study
+#
+# tool    : program name as invoked
+# version : version used
+# purpose : what the tool was used for in this study
+# source  : canonical URL or DOI
+#
+# Tools whose versions were not recorded are not listed here; which tool each analysis
+# step uses is stated in that step's README.
+#
+tool	version	purpose	source
+BLAST+	2.16.0+	protein and nucleotide homology search (blastp, blastn, makeblastdb)	https://blast.ncbi.nlm.nih.gov/
+Cell Ranger	9.0.1	10x single-nucleus read processing	https://www.10xgenomics.com/support/software/cell-ranger
+DESeq2	1.46.0	differential expression across cell types	https://bioconductor.org/packages/DESeq2/
+GETA	2.7.1	gene prediction combining transcript, homology and ab initio evidence	https://github.com/chenlianfu/geta
+HISAT2	2.2.1	RNA-seq read alignment	http://daehwankimlab.github.io/hisat2/
+HiC-Pro	3.1.0	Hi-C read processing and contact matrices	https://github.com/nservant/HiC-Pro
+JCVI	1.5.7	synteny-based validation of gene correspondence	https://github.com/tanghaibao/jcvi
+MUMmer4	4.0.1	whole-genome alignment between assemblies and accessions	https://github.com/mummer4/mummer
+Mfuzz	2.66.0	soft clustering of expression time series	https://bioconductor.org/packages/Mfuzz/
+Seurat	4.3.0	R single-cell object handling and marker analysis	https://satijalab.org/seurat/
+StainedGlass	0.6	sequence-identity plots of repeat arrays	https://github.com/mrvollger/StainedGlass
+StringTie	2.1.7	transcript assembly and quantification (TPM)	https://ccb.jhu.edu/software/stringtie/
+SyRI	1.7.1	structural variant detection and classification	https://github.com/schneebergerlab/syri
+TeloComp	1.0.0	telomere composition and terminal-repeat analysis	https://github.com/Shuai-Nie/TeloComp
+WGCNA	1.73	weighted gene co-expression network analysis	https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/
+anndata	0.10.8	annotated single-cell data matrices	https://anndata.readthedocs.io/
+bedtools	2.31.1	interval operations, window generation, block merging and PAV analysis	https://bedtools.readthedocs.io/
+eggNOG-mapper	2.1.13	functional annotation of predicted proteins	http://eggnog-mapper.embl.de/
+fastp	1.1.0	bulk RNA-seq read quality filtering	https://github.com/OpenGene/fastp
+leidenalg	0.10.2	graph-based clustering (Leiden algorithm)	https://github.com/vtraag/leidenalg
+merfin	v1.0	k-mer-spectrum-based polishing edit filtering	https://github.com/arangrhie/merfin
+plotsr	1.1.1	plotting SyRI structural rearrangement output	https://github.com/schneebergerlab/plotsr
+psych	2.5.6	correlation and significance testing for co-expression networks	https://cran.r-project.org/package=psych
+racon	liftover branch	long-read consensus correction during polishing	https://github.com/isovic/racon
+samtools	1.21	BAM/FASTA utilities, indexing and coverage	https://www.htslib.org/
+scanpy	1.10.1	single-cell analysis toolkit	https://scanpy.readthedocs.io/
+scTenifoldKnk	1.0.2	virtual knockout perturbation analysis	https://github.com/cailab-tamu/scTenifoldKnk
+scvi-tools	1.1.2	sample integration and batch correction	https://docs.scvi-tools.org/
+seqkit	2.10.1	FASTA/FASTQ filtering and length statistics	https://github.com/shenwei356/seqkit
+```
+
+</details>

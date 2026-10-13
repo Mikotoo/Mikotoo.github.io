@@ -17,6 +17,7 @@ sidebar:
 
 <details>
 <summary>English</summary>
+
 **Purpose**: Dot-plot comparison of the published Gifu and MG20 assemblies; the gap content comparison is in `gap_analysis/`.
 **Entry point**: `mummer.sh`
 **Inputs**: `ref.filter.delta`; `-R `{PROJ_LOTUS_ZC}`/Gifu/05_3.mummer/Gifu_ref.fa`, `-Q `{PROJ_LOTUS_ZC}`/MG20/05_3.mummer/MG20_ref.fa`.
@@ -32,4 +33,29 @@ sidebar:
 | --- | --- |
 | [gap 区域分析](/_projects/lotus/scripts/06-genome-comparison/01-published-assemblies/gap-analysis/) | — |
 
+## 代码
 
+以下为该步骤目录中的实际文件（同步快照，与该目录内容一致）。
+
+<details open>
+<summary><code>mummer.sh</code> · Shell · 13 行</summary>
+
+[在 GitHub 上查看此文件](https://github.com/Mikotoo/Lotus_genome/blob/main/scripts/06_genome_comparison/01_published_assemblies/mummer.sh)
+
+```bash
+#!/bin/bash
+#CSUB -J nucmer
+#CSUB -q c01
+#CSUB -o nucmer.out
+#CSUB -e nucmer.error
+#CSUB -n 64
+#CSUB -R span[hosts=1]
+
+#nucmer --prefix ref {PROJ_LOTUS_ZC}/Gifu/05_3.mummer/Gifu_ref.fa {PROJ_LOTUS_ZC}/MG20/05_3.mummer/MG20_ref.fa
+#delta-filter -i 89 -l 1000 -1 ref.delta > ref.filter.delta
+#show-coords -THrd ref.filter.delta > ref.filter.delta.coords
+
+mummerplot ref.filter.delta -R {PROJ_LOTUS_ZC}/Gifu/05_3.mummer/Gifu_ref.fa -Q {PROJ_LOTUS_ZC}/MG20/05_3.mummer/MG20_ref.fa --layout --png --large
+```
+
+</details>

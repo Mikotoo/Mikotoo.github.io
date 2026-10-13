@@ -4,10 +4,12 @@
  * Only config/projects.json registers projects. Sources are read-only.
  * Files: snapshots/projects/<key>.md and <key>/...; URLs: /_projects/<key>/...
  * Preflight reads every README before staging; publish only after all projects succeed.
+ * Each step page carries the README first, then that directory's code as fenced blocks.
  */
 import { readFile, writeFile, mkdir, rm, readdir, rename } from 'node:fs/promises';
 import { existsSync, statSync } from 'node:fs';
 import { createHash } from 'node:crypto';
+import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -116,6 +118,75 @@ async function collectReadmes(repoDir) {
   return out.sort();
 }
 
+/* Scripts and small configuration files are snapshotted next to their README so a
+   step page can show the documentation and the code it talks about together. */
+const CODE_LANGUAGES = {
+  '.sh': 'bash', '.bash': 'bash', '.zsh': 'bash', '.ksh': 'bash',
+  '.py': 'python', '.py3': 'python',
+  '.r': 'r',
+  '.pl': 'perl', '.awk': 'awk',
+  '.conf': 'ini', '.cfg': 'ini', '.ini': 'ini', '.toml': 'toml',
+  '.json': 'json', '.yaml': 'yaml', '.yml': 'yaml',
+  '.list': 'text', '.txt': 'text', '.tsv': 'text', '.csv': 'text',
+};
+const MAX_CODE_BYTES = 150 * 1024;
+
+function codeLanguage(relPath) {
+  const base = path.posix.basename(relPath);
+  if (base.startsWith('.')) return null;
+  // Documentation and licence texts live in their own files, not in the code listing.
+  if (/(^|[-_.])(readme|licen[cs]e|copying|notice|changelog)([-_.]|$)/i.test(base)) return null;
+  return CODE_LANGUAGES[path.posix.extname(base).toLowerCase()] ?? null;
+}
+
+async function collectCode(repoDir) {
+  const out = [];
+  const consider = (relPath, bytes) => {
+    const language = codeLanguage(relPath);
+    if (!language || bytes.length > MAX_CODE_BYTES || bytes.includes(0)) return;
+    out.push({ rel: relPath, bytes, language });
+  };
+  // A git checkout is authoritative: gitignored scratch files must never reach the site.
+  if (existsSync(path.join(repoDir, '.git'))) {
+    const listed = spawnSync('git', ['-C', repoDir, 'ls-files', '-z'], { encoding: 'buffer', maxBuffer: 1 << 28 });
+    if (listed.status === 0) {
+      for (const rel of listed.stdout.toString('utf8').split('\0')) {
+        if (!rel) continue;
+        consider(rel, await readFile(path.join(repoDir, ...rel.split('/'))));
+      }
+      return out.sort((a, b) => a.rel < b.rel ? -1 : a.rel > b.rel ? 1 : 0);
+    }
+  }
+  const SKIP = new Set(['.git', 'node_modules', '__pycache__', 'work']);
+  async function walk(dir, rel) {
+    for (const e of (await readdir(dir, { withFileTypes: true })).sort((a, b) => a.name.localeCompare(b.name, 'en'))) {
+      if (SKIP.has(e.name)) continue;
+      const relPath = rel ? `${rel}/${e.name}` : e.name;
+      if (e.isDirectory()) await walk(path.join(dir, e.name), relPath);
+      else consider(relPath, await readFile(path.join(dir, e.name)));
+    }
+  }
+  await walk(repoDir, '');
+  return out.sort((a, b) => a.rel < b.rel ? -1 : a.rel > b.rel ? 1 : 0);
+}
+
+/** Deepest ancestor page owns each code file, so directories without a README still surface. */
+function assignCode(project) {
+  const pageDirs = new Set(project.plan.pages.keys());
+  const byDir = new Map();
+  for (const file of project.code) {
+    let dir = path.posix.dirname(file.rel);
+    if (dir === '.') dir = '';
+    while (!pageDirs.has(dir)) {
+      const parent = path.posix.dirname(dir);
+      dir = parent === '.' ? '' : parent;
+    }
+    if (!byDir.has(dir)) byDir.set(dir, []);
+    byDir.get(dir).push(file);
+  }
+  return byDir;
+}
+
 async function loadProjects() {
   const config = JSON.parse(await readFile(path.join(SITE_ROOT, 'config', 'projects.json'), 'utf8'));
   if (!Array.isArray(config.projects)) throw new Error('config/projects.json must contain a projects array');
@@ -135,22 +206,26 @@ async function loadProjects() {
     if (dir === SITE_ROOT || !statSync(dir).isDirectory()) throw new Error(`Invalid source directory for ${key}: ${dir}`);
     const readmes = await collectReadmes(dir);
     if (!readmes.some((rel) => !rel.includes('/'))) throw new Error(`Registered source ${key} has no root README: ${dir}`);
+    const code = await collectCode(dir);
     const contents = new Map();
     const hash = createHash('sha256');
-    for (const rel of readmes) {
-      const bytes = await readFile(path.join(dir, ...rel.split('/')));
-      contents.set(rel, bytes);
+    const readmeSet = new Set(readmes);
+    const codeBytes = new Map(code.map((file) => [file.rel, file.bytes]));
+    for (const rel of [...readmes, ...code.map((file) => file.rel)].sort()) {
+      const bytes = readmeSet.has(rel) ? await readFile(path.join(dir, ...rel.split('/'))) : codeBytes.get(rel);
+      if (readmeSet.has(rel)) contents.set(rel, bytes);
       // Length-prefixed UTF-8 relative names and raw bytes avoid ambiguous boundaries.
       hash.update(`${Buffer.byteLength(rel, 'utf8')}:`).update(rel, 'utf8');
       hash.update(`${bytes.length}:`).update(bytes);
     }
     const project = {
-      key, dir, readmes, contents,
+      key, dir, readmes, contents, code,
       displayName: entry.title ?? path.basename(dir),
       repo: await readRepoRemote(dir, entry),
       sourceSha256: hash.digest('hex'),
     };
     project.plan = buildPlan(project, readmes);
+    project.codeByDir = assignCode(project);
     projects.push(project);
   }
   return projects.sort((a, b) => a.key < b.key ? -1 : a.key > b.key ? 1 : 0);
@@ -196,7 +271,57 @@ function collapseEnglish(body) {
   if (!m) return body;
   const head = body.slice(0, m.index);
   const tail = body.slice(m.index + m[0].length);
-  return `${head.trimEnd()}\n\n<details>\n<summary>English</summary>\n${tail.trim()}\n\n</details>\n`;
+  // The blank lines are required: without them the whole block stays raw HTML and its
+  // Markdown (**bold**, tables, links) would be printed literally.
+  return `${head.trimEnd()}\n\n<details>\n<summary>English</summary>\n\n${tail.trim()}\n\n</details>\n`;
+}
+
+/* ------------------------------------------------------------ code blocks */
+
+const languageLabel = (language) => ({ bash: 'Shell', python: 'Python', r: 'R' }[language] ?? language);
+
+/** Files above the inline limit keep only their opening lines; the rest links to GitHub. */
+const MAX_INLINE_LINES = 800;
+const PREVIEW_LINES = 120;
+/** Files above this start collapsed so a step page stays scannable. */
+const MAX_OPEN_LINES = 300;
+
+function fenceFor(text) {
+  const longest = Math.max(0, ...[...text.matchAll(/`+/g)].map((m) => m[0].length));
+  return '`'.repeat(Math.max(3, longest + 1));
+}
+
+function buildCodeSection(files, dirRel, repo) {
+  const parts = ['## 代码', '', `以下为该步骤目录中的实际文件（同步快照，与该目录内容一致）。`, ''];
+  for (const file of files) {
+    const shown = path.posix.relative(dirRel || '.', file.rel) || file.rel;
+    const text = file.bytes.toString('utf8').replace(/\s+$/, '');
+    const allLines = text ? text.split('\n') : [];
+    // Very long scripts would dominate the page and the download; embed a readable
+    // preview and link out for the rest instead of shipping thousands of lines.
+    const truncated = allLines.length > MAX_INLINE_LINES;
+    const body = (truncated ? allLines.slice(0, PREVIEW_LINES) : allLines).join('\n');
+    const fence = fenceFor(body);
+    const url = blobUrl(repo, file.rel);
+    const size = `${allLines.length} 行${truncated ? `（内嵌前 ${PREVIEW_LINES} 行）` : ''}`;
+    // Short scripts stay visible; long ones start collapsed so the page stays readable.
+    const open = allLines.length <= MAX_OPEN_LINES ? ' open' : '';
+    parts.push(
+      `<details${open}>`,
+      `<summary><code>${shown}</code> · ${languageLabel(file.language)} · ${size}</summary>`,
+      '',
+      `[在 GitHub 上查看此文件](${url})`,
+      '',
+      `${fence}${file.language}`,
+      body,
+      fence,
+      '',
+      ...(truncated ? [`_完整文件共 ${allLines.length} 行，其余部分请在 [GitHub](${url}) 上查看。_`, ''] : []),
+      '</details>',
+      '',
+    );
+  }
+  return parts.join('\n');
 }
 
 function convertReadme({ markdown, project, relPath, title, siteIndex, collapse, sidebarLabel, sidebarOrder }) {
@@ -268,7 +393,8 @@ async function writePage(slug, content) {
   const relative = slug.slice(`${PROJECTS_URL_PREFIX}/`.length);
   const file = path.join(STAGING_ROOT, 'projects', `${relative}.md`);
   await mkdir(path.dirname(file), { recursive: true });
-  await writeFile(file, content, 'utf8');
+  // Exactly one trailing newline: embedded code keeps its own internal whitespace.
+  await writeFile(file, `${content.replace(/\s+$/, '')}\n`, 'utf8');
   stats.pages++;
 }
 
@@ -328,6 +454,8 @@ async function syncProject(project) {
       });
       content = `${content.trimEnd()}\n${buildStageIndex({ project, dirRel, childEntries: children })}\n`;
     }
+    const codeFiles = project.codeByDir.get(dirRel) ?? [];
+    if (codeFiles.length) content = `${content.trimEnd()}\n\n${buildCodeSection(codeFiles, dirRel, project.repo)}\n`;
     await writePage(slug, `${content}\n`);
   }
   stats.projects.push({
@@ -336,8 +464,9 @@ async function syncProject(project) {
     pages: plan.pages.size,
     rootSlug: rootPage.slug,
     sourceSha256: project.sourceSha256,
+    codeFiles: project.code.length,
   });
-  console.log(`[sync] ${project.key}: ${plan.pages.size} 页（${project.readmes.length} 个 README）`);
+  console.log(`[sync] ${project.key}: ${plan.pages.size} 页（${project.readmes.length} 个 README、${project.code.length} 个代码文件）`);
 }
 
 /* ------------------------------------------------------------------ main */

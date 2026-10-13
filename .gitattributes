@@ -23,6 +23,9 @@ pnpm-lock.yaml -diff
 dist/** -diff
 public/media/** -diff
 
+# 项目快照按原样镜像外部仓库：内嵌代码保留源码里的行尾空格，不做空白检查
+snapshots/projects/** -whitespace
+
 # 语法高亮
 *.sh text eol=lf
 *.mjs text eol=lf

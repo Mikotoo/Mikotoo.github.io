@@ -12,4 +12,3 @@ sidebar:
 | --- | --- |
 | [rDNA 位点与阵列](/_projects/lotus/scripts/04-rdna/01-locus-and-arrays/) | — |
 | [rDNA 拷贝数](/_projects/lotus/scripts/04-rdna/03-copy-number/) | — |
-

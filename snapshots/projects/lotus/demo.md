@@ -16,6 +16,7 @@ sidebar:
 
 <details>
 <summary>English</summary>
+
 **Purpose**: Small, runnable demonstrations of this repository's custom code; each demo is self-contained, uses a tiny hand-made or synthetic input, and ships the output a correct run produces.
 **Entry point**: `03_telomere/run_demo.sh`, `05_centromere/run_demo.sh`; each demo directory holds `input/`, `expected_output/` and `run_demo.sh`.
 **Inputs**: the 2 kb synthetic chromosome FASTA and its `.fai` index in `03_telomere/input/`; `clusters.list` (8 repeat clusters) and `pairs.jaccard_ge0.7.tsv` (6 Jaccard pairs) in `05_centromere/input/`.
@@ -31,5 +32,3 @@ sidebar:
 | --- | --- |
 | [示例：端粒识别](/_projects/lotus/demo/03-telomere/) | — |
 | [示例：着丝粒串联重复](/_projects/lotus/demo/05-centromere/) | — |
-
-

@@ -16,6 +16,7 @@ sidebar:
 
 <details>
 <summary>English</summary>
+
 **Purpose**: Scan the contig set for telomeric repeat units and list the 1 kb windows dense in them, and run BUSCO separately for gene-space completeness.
 **Entry point**: `find_tel.sh` (calls `get_tel.py`); `busco.sh` runs independently
 **Inputs**: `contigs.fa` (shared by the telomere scan and `busco.sh`).
@@ -25,4 +26,69 @@ sidebar:
 
 </details>
 
+## 代码
 
+以下为该步骤目录中的实际文件（同步快照，与该目录内容一致）。
+
+<details open>
+<summary><code>busco.sh</code> · Shell · 7 行</summary>
+
+[在 GitHub 上查看此文件](https://github.com/Mikotoo/Lotus_genome/blob/main/scripts/01_assembly/04_telomere_check/busco.sh)
+
+```bash
+#4.1 busco初步检查组装完整性
+
+busco -i contigs.fa \
+      -l {SOFTWARE}/busco_downloads/lineages/embryophyta_odb10 \
+      -o Gifu_lotus \
+      -m genome \
+      --cpu 64
+```
+
+</details>
+
+<details open>
+<summary><code>find_tel.sh</code> · Shell · 8 行</summary>
+
+[在 GitHub 上查看此文件](https://github.com/Mikotoo/Lotus_genome/blob/main/scripts/01_assembly/04_telomere_check/find_tel.sh)
+
+```bash
+#4.2 初步检查每条contig是否组装到端粒，辅助后续挂载排序
+
+python get_tel.py
+sort -u Gifu.tel_unit.bed |sort -k 1,1 -k 1n > tmp && mv tmp Gifu.tel_unit.bed
+samtools faidx contigs.fa
+cat contigs.fa.fai |awk '{print $1"\t"$2}' > Gifu.length
+bedtools makewindows -g Gifu.length -w 1000 > Gifu_1k.bed
+bedtools intersect -a Gifu_1k.bed -b Gifu.tel_unit.bed -wa |uniq -c|awk '$1>50{print $2"\t"$3"\t"$4"\t"$1}' > Gifu_tel.result
+```
+
+</details>
+
+<details open>
+<summary><code>get_tel.py</code> · Python · 18 行</summary>
+
+[在 GitHub 上查看此文件](https://github.com/Mikotoo/Lotus_genome/blob/main/scripts/01_assembly/04_telomere_check/get_tel.py)
+
+```python
+from Bio import SeqIO
+
+fasta_file = "contigs.fa"
+bed_file = "Gifu.tel_unit.bed"
+strings = ['CCCTAAA', 'TTTAGGG']
+print("Total strings:", len(strings))
+x = ['A', 'T', 'G', 'C']
+
+with open(bed_file, 'w') as f:
+    for record in SeqIO.parse(fasta_file, "fasta"):
+        seq = str(record.seq)
+        for string in strings:
+            for i in range(len(seq) - 6):
+                for j in range(7):
+                    for m in range(len(x)):
+                        modified_string = string[:j] + x[m] + string[j+1:]
+                        if seq[i:i + 7] == modified_string:
+                            f.write(record.id + "\t" + str(i) + "\t" + str(i + 6) + "\t" + modified_string + "\n")
+```
+
+</details>

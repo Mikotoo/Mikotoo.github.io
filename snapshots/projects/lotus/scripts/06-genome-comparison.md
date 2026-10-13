@@ -15,4 +15,3 @@ sidebar:
 | [易位核查](/_projects/lotus/scripts/06-genome-comparison/03-translocation-check/) | — |
 | [T2T 与前版本比较](/_projects/lotus/scripts/06-genome-comparison/05-t2t-vs-previous/) | — |
 | [注释比较](/_projects/lotus/scripts/06-genome-comparison/06-annotation-comparison/) | — |
-

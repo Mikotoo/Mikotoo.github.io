@@ -20,4 +20,3 @@ sidebar:
 | [功能注释](/_projects/lotus/scripts/02-annotation/08-functional-annotation/) | — |
 | [注释导出](/_projects/lotus/scripts/02-annotation/09-annotation-export/) | — |
 | [基因对应关系](/_projects/lotus/scripts/02-annotation/10-gene-correspondence/) | — |
-

@@ -14,4 +14,3 @@ sidebar:
 | [重复单元](/_projects/lotus/scripts/05-centromere/02-repeat-units/) | — |
 | [一致性序列](/_projects/lotus/scripts/05-centromere/03-consensus/) | — |
 | [StainedGlass 分析](/_projects/lotus/scripts/05-centromere/04-stainglass/) | — |
-

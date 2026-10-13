@@ -17,6 +17,7 @@ sidebar:
 
 <details>
 <summary>English</summary>
+
 **Purpose**: Assign functional descriptions to the final Gifu T2T gene models: `eggnog.sh` runs the main functional annotation with eggNOG-mapper, and the copies of `run_BLASTP.sh`, `run_PfamScan.sh` and `run_RSEM.sh` in this directory provide the homology, domain and expression evidence.
 **Entry point**: `eggnog.sh`; `run_BLASTP.sh`, `run_PfamScan.sh` and `run_RSEM.sh` each run on their own.
 **Inputs**: Gifu T2T predicted proteins `00_assembly_result/GifuT2T/Lotus_GifuT2T.pep.fa` (used by `eggnog.sh`); `Gifu_T2T.protein.fasta` under the GETA output tree (used by `run_PfamScan.sh`); `cmd.list`, the BLASTP command list for ParaFly; `reference.fasta`, `reference.fasta.fai`, `gene.map` and the pooled `Gifu_RNA_all_R1/R2.fastq.gz` (used by `run_RSEM.sh`).
@@ -26,4 +27,70 @@ sidebar:
 
 </details>
 
+## 代码
 
+以下为该步骤目录中的实际文件（同步快照，与该目录内容一致）。
+
+<details open>
+<summary><code>eggnog.sh</code> · Shell · 9 行</summary>
+
+[在 GitHub 上查看此文件](https://github.com/Mikotoo/Lotus_genome/blob/main/scripts/02_annotation/08_functional_annotation/eggnog.sh)
+
+```bash
+#!/bin/bash
+#CSUB -J eggnog
+#CSUB -q c01
+#CSUB -o eggnog.out
+#CSUB -e eggnog.error
+#CSUB -n 64
+#CSUB -R span[hosts=1]
+
+python {SOFTWARE_ZC}/eggnog-mapper-2.1.13/emapper.py -m hmmer -d Eukaryota -i {PROJ_04_LOTUS_GENOME}/00_assembly_result/GifuT2T/Lotus_GifuT2T.pep.fa --output Lotus_Gifu --cpu 64
+```
+
+</details>
+
+<details open>
+<summary><code>run_BLASTP.sh</code> · Shell · 5 行</summary>
+
+[在 GitHub 上查看此文件](https://github.com/Mikotoo/Lotus_genome/blob/main/scripts/02_annotation/08_functional_annotation/run_BLASTP.sh)
+
+```bash
+#!/bin/bash
+cd $PBS_O_WORKDIR
+ParaFly -c cmd.list -CPU 0
+cat blast*.out.tmp > BLASTP.OUT.TMP
+rm blast*.out.tmp
+```
+
+</details>
+
+<details open>
+<summary><code>run_PfamScan.sh</code> · Shell · 3 行</summary>
+
+[在 GitHub 上查看此文件](https://github.com/Mikotoo/Lotus_genome/blob/main/scripts/02_annotation/08_functional_annotation/run_PfamScan.sh)
+
+```bash
+#!/bin/bash
+cd $PBS_O_WORKDIR
+perl {SOFTWARE_ZC}/PfamScan/pfam_scan.pl -fasta  {PROJ_LOTUS_ZC}/Gifu/09.annotation/07.geta/Gifu_T2T.protein.fasta -dir {SOFTWARE_ZC}/Pfam -cpu 1 -outfile pfam.out
+```
+
+</details>
+
+<details open>
+<summary><code>run_RSEM.sh</code> · Shell · 7 行</summary>
+
+[在 GitHub 上查看此文件](https://github.com/Mikotoo/Lotus_genome/blob/main/scripts/02_annotation/08_functional_annotation/run_RSEM.sh)
+
+```bash
+#!/bin/bash
+cd $PBS_O_WORKDIR
+{CONDA_ZC}/envs/annotation/bin/align_and_estimate_abundance.pl --transcripts reference.fasta --seqType fq --left {PROJ_LOTUS_ZC}/Gifu/09.annotation/08.geta_filter/Gifu_RNA_all_R1.fastq.gz --right {PROJ_LOTUS_ZC}/Gifu/09.annotation/08.geta_filter/Gifu_RNA_all_R1.fastq.gz --est_method RSEM --aln_method bowtie --gene_trans_map gene.map --prep_reference --output_dir rsem_outdir --thread_count 1
+samtools sort -@ 1 -o sorted.bam rsem_outdir/bowtie.bam
+awk '{print $1"\t1\t"$2}' reference.fasta.fai > gene.bed
+awk '{print $1"\t"$2}' reference.fasta.fai > transcriptome_chromSizes.txt
+bedtools coverage -a gene.bed -b sorted.bam -sorted -g transcriptome_chromSizes.txt > cov.bed
+```
+
+</details>
